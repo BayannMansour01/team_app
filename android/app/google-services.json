@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "378707537504",
+    "project_id": "graduation-project-20eda",
+    "storage_bucket": "graduation-project-20eda.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:378707537504:android:d6c4a44f1e5548444d9d05",
+        "android_client_info": {
+          "package_name": "com.example.alternative_energy_user_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDmvMsCleQHWnZTEPkcflRU14Pu8Xr0Sv4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:378707537504:android:850e57941ebe946b4d9d05",
+        "android_client_info": {
+          "package_name": "com.example.team_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDmvMsCleQHWnZTEPkcflRU14Pu8Xr0Sv4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
