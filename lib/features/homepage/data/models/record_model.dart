@@ -27,7 +27,6 @@ class RecordsResponse {
     };
   }
 }
-
 class Record {
   int id;
   int userId;
@@ -36,7 +35,7 @@ class Record {
   DateTime updatedAt;
   User user;
   Order order;
-  Appointment appointment;
+  Appointment? appointment;
 
   Record({
     required this.id,
@@ -46,7 +45,7 @@ class Record {
     required this.updatedAt,
     required this.user,
     required this.order,
-    required this.appointment,
+    this.appointment,
   });
 
   factory Record.fromJson(Map<String, dynamic> json) {
@@ -56,9 +55,11 @@ class Record {
       orderId: json['order_id'],
       createdAt: DateTime.parse(json['created_at']),
       updatedAt: DateTime.parse(json['updated_at']),
-      user: User.fromJson(json['user']),
-      order: Order.fromJson(json['order']),
-      appointment: Appointment.fromJson(json['appointment']),
+      user: User.fromJson(json['user'] ?? {}),
+      order: Order.fromJson(json['order'] ?? {}),
+      appointment: json['appointment'] != null
+          ? Appointment.fromJson(json['appointment'])
+          : null,
     );
   }
 
@@ -71,7 +72,7 @@ class Record {
       'updated_at': updatedAt.toIso8601String(),
       'user': user.toJson(),
       'order': order.toJson(),
-      'appointment': appointment.toJson(),
+      'appointment': appointment?.toJson(),
     };
   }
 }
@@ -200,7 +201,7 @@ class Appointment {
   factory Appointment.fromJson(Map<String, dynamic> json) {
     return Appointment(
       id: json['id'],
-      startTime: json['start_time'],
+      startTime: json['start_time'] ?? '',
       endTime: json['end_time'],
       teamId: json['team_id'],
       orderId: json['order_id'],
