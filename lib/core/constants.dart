@@ -3,7 +3,7 @@ import 'package:hexcolor/hexcolor.dart';
 
 abstract class AppConstants {
   // static const String ip = "192.168.105.95";
-  static const String ip = "192.168.43.50";
+  static const String ip = "192.168.1.107";
   static const String baseUrl = 'http://${ip}:8000/api/';
   static const String register = 'auth/register';
   static const String login = 'auth/login';
@@ -17,6 +17,7 @@ abstract class AppConstants {
   static const String searchProductById = 'Products/search';
   static const String detailesProduct = 'Products/show';
   static const String fetchApointemnt = 'appointments/teamApp/';
+  static const String updateProduct = "appointments/updateProducts/";
 
   static const String fetchAllProduct = 'Products/showAll';
   static const String fetchAllRecords = "records/showAll";

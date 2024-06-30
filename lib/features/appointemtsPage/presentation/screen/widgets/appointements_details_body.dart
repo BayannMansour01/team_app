@@ -20,6 +20,7 @@ import 'package:team_app/features/appointemtsPage/presentation/manager/Appointem
 import 'package:team_app/features/appointemtsPage/presentation/screen/widgets/appointments_body.dart';
 import 'package:team_app/features/appointemtsPage/presentation/screen/widgets/custom_stepper.dart';
 import 'package:team_app/features/appointemtsPage/presentation/screen/widgets/date_picker.dart';
+import 'package:team_app/features/appointemtsPage/presentation/screen/widgets/prouducts_list.dart';
 import 'package:team_app/features/homepage/data/models/product_model.dart';
 import 'package:team_app/features/homepage/presentation/screens/widgets/home_page_body.dart';
 import 'package:team_app/features/homepage/presentation/screens/widgets/productgridViewForShow.dart';
@@ -209,9 +210,11 @@ class AppointementDetailsScreen extends StatelessWidget {
                               builder: (context) {
                                 return AlertDialog(
                                   title: Text('اختر المنتجات المناسبة '),
-                                  content: productGridViewforshow(
-                                      count: cubit.appointements.length,
-                                      product: cubit.productsshow),
+                                  content: SingleChildScrollView(
+                                    child: productGridViewforshow(
+                                        count: cubit.productsshow.length,
+                                        product: cubit.productsshow),
+                                  ),
                                   actions: [
                                     TextButton(
                                       onPressed: () {
@@ -222,6 +225,7 @@ class AppointementDetailsScreen extends StatelessWidget {
                                     ),
                                     TextButton(
                                       onPressed: () {
+                                        // cubit.submitUpdate()
                                         Navigator.of(context)
                                             .pop(); // إغلاق الحوار
                                       },

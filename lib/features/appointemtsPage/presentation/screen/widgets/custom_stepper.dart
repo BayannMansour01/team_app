@@ -92,38 +92,56 @@ class CustomStepper extends StatelessWidget {
             ),
             EasyStep(
               customStep: InkWell(
-                onTap: statusIndex == 2
-                    ? () {
-                        showDialog(
-                          context: context,
-                          builder: (context) {
-                            return AlertDialog(
-                              title: Text('أضف تشخيص'),
-                              content: CustomTextField(
-                                onChanged: (p0) {
-                                  cubit.desc = p0;
-                                },
-                              ),
-                              actions: [
-                                TextButton(
-                                  onPressed: () {
-                                    Navigator.of(context).pop(); // إغلاق الحوار
-                                  },
-                                  child: Text('إلغاء'),
-                                ),
-                                TextButton(
-                                  onPressed: () {
-                                    cubit.makeDone(item.id);
-                                    Navigator.of(context).pop(); // إغلاق الحوار
-                                  },
-                                  child: Text('موافق'),
-                                ),
-                              ],
-                            );
-                          },
-                        );
-                      }
-                    : null,
+                onTap:
+                    // statusIndex == 2
+                    //     ?
+                    () {
+                  showDialog(
+                    context: context,
+                    builder: (context) {
+                      return AlertDialog(
+                        title: Text(' أضف تشخيص و سعر متوقع'),
+                        content: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            CustomTextField(
+                              onChanged: (p0) {
+                                cubit.desc = p0;
+                              },
+                            ),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            CustomTextField(
+                              keyboardType: TextInputType.number,
+                              onChanged: (p1) {
+                                cubit.otherPrice = p1;
+                              },
+                            ),
+                          ],
+                        ),
+                        actions: [
+                          TextButton(
+                            onPressed: () {
+                              Navigator.of(context).pop(); // إغلاق الحوار
+                            },
+                            child: Text('إلغاء'),
+                          ),
+                          TextButton(
+                            onPressed: () {
+                              log("item id ${item.id}");
+                              cubit.makeDone(item.id);
+                              Navigator.of(context).pop(); // إغلاق الحوار
+                            },
+                            child: Text('موافق'),
+                          ),
+                        ],
+                      );
+                    },
+                  );
+                }
+                // : null
+                ,
                 child: CircleAvatar(
                   radius: 8,
                   backgroundColor: Colors.white,

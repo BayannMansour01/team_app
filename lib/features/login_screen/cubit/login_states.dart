@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:team_app/features/homepage/data/message_model.dart';
 
-abstract class LoginStates extends Equatable {
+abstract class LoginStates {
   @override
   List<Object> get props => [];
 }

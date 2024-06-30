@@ -12,6 +12,8 @@ import 'package:team_app/features/appointemtsPage/data/models/allProductResponse
 import 'package:team_app/features/appointemtsPage/data/models/apointement_model.dart';
 import 'package:team_app/features/appointemtsPage/data/models/response_done.dart';
 import 'package:team_app/features/appointemtsPage/data/repos/appointements_repo.dart';
+import 'package:team_app/features/homepage/data/models/product_update_response.dart';
+import 'package:team_app/features/homepage/data/models/products_update_body.dart';
 
 class AppointementsRepoImpl extends AppointementRepo {
   Future<Either<Failure, List<Appointment>>> fetchApointements(
@@ -41,14 +43,20 @@ class AppointementsRepoImpl extends AppointementRepo {
   }
 
   @override
-  Future<Either<Failure, BasicResponse>> makeDone(int id, String desc) async {
+  Future<Either<Failure, BasicResponse>> makeDone(
+    int id,
+    String desc,
+    String otherPrice,
+  ) async {
     try {
-      log("${desc}");
+      log("${desc} ");
+      log("qqqqqqqqq ${otherPrice}");
       final data = await DioHelper.postData(
         url: "${AppConstants.makeComplete}$id",
         token: CacheHelper.getData(key: 'Token'),
         body: {
           "desc": "$desc",
+          "otherPrice": "${otherPrice}",
         },
       );
       log("makedone:  $data");

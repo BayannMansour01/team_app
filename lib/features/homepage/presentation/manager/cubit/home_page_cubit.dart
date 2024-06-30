@@ -4,6 +4,8 @@ import 'package:team_app/core/utils/cache_helper.dart';
 import 'package:team_app/features/chatScreen/presentation/Screens/chat_screen.dart';
 import 'package:team_app/features/chatScreen/presentation/Screens/conversations_screen.dart';
 import 'package:team_app/features/homepage/data/models/product_model.dart';
+import 'package:team_app/features/homepage/data/models/product_update_response.dart';
+import 'package:team_app/features/homepage/data/models/products_update_body.dart';
 import 'package:team_app/features/homepage/data/models/record_model.dart';
 import 'package:team_app/features/homepage/data/models/user_model.dart';
 import 'package:team_app/features/homepage/data/repos/home_repo.dart';
@@ -56,51 +58,45 @@ class homepageCubit extends Cubit<homepageState> {
   final homeRepo Repo;
   // String groupname = '';
   // List<System> proposedSystem = [];
+  Map<int, int> productQuantities = {};
 
-  // Future<void> fetchAllProposedSystem() async {
-  //   emit(GetProposedSystemLoading());
-  //   var result = await Repo.fetchProposedSystems();
-  //   print("result $result");
-  //   result.fold((failure) {
-  //     emit(GetProposedSystemFailure((failure.errorMessege)));
-  //   }, (data) {
-  //     proposedSystem = data;
-  //     emit(GetProposedSystemSuccess(proposedSystem));
-  //   });
+  void increaseQuantity(int productId) {
+    if (productQuantities.containsKey(productId)) {
+      productQuantities[productId] = productQuantities[productId]! + 1;
+    } else {
+      productQuantities[productId] = 1;
+    }
+    emit(OrderAmountChanged());
+  }
+
+  void decreaseQuantity(int productId) {
+    if (productQuantities.containsKey(productId) &&
+        productQuantities[productId]! > 1) {
+      productQuantities[productId] = productQuantities[productId]! - 1;
+    } else {
+      productQuantities[productId] = 1;
+    }
+    emit(OrderAmountChanged());
+  }
+
+  int getQuantity(int productId) {
+    return productQuantities[productId] ?? 1;
+  }
+
+  List<ProductForUpdate> productsUpdates = [];
+  void addToupdatedProduct(ProductForUpdate p) {
+    productsUpdates.add(p);
+    emit(OrderUpdatedState(productsUpdates));
+  }
+
+  // // ProductUpdateResponse res;
+  // void updateProducts(List<ProductForUpdate> l) {
+  //   final result = Repo.updateProducts(
+  //       ProductsResponsebody.fromJson(l as Map<String, dynamic>));
+  //   log("cubit update$result");
+  //   emit(updateProduct());
   // }
 
-  // Future<void> fetchAllProducts() async {
-  //   emit(GetProductsLoading());
-  //   var result = await Repo.fetchProducts();
-  //   result.fold((failure) {
-  //     emit(GetProductsFailure(((failure.errorMessege))));
-  //   }, (data) {
-  //     products = data;
-  //     emit(GetProductsSuccess(products));
-  //   });
-  // }
-
-  // Future<void> fetchAllPanales() async {
-  //   emit(GetPanalesLoading());
-  //   var result = await Repo.fetchPanales();
-  //   result.fold((failure) {
-  //     emit(GetPanalesFailure(((failure.errorMessege))));
-  //   }, (data) {
-  //     panales = data;
-  //     emit(GetPanalesSuccess(panales));
-  //   });
-  // }
-
-  // Future<void> fetchAllBAtteries() async {
-  //   emit(GetBatteriesLoading());
-  //   var result = await Repo.fetchbatteries();
-  //   result.fold((failure) {
-  //     emit(GetBatteriesFailure(((failure.errorMessege))));
-  //   }, (data) {
-  //     batteries = data;
-  //     emit(GetBatteriesSuccess(batteries));
-  //   });
-  // }
   List<Record> records = [];
   Future<void> fetchAllIRecords() async {
     var result = await Repo.fetchrecords();

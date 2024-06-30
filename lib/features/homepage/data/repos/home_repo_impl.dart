@@ -4,12 +4,15 @@ import 'package:team_app/core/constants.dart';
 import 'package:team_app/core/errors/failure.dart';
 import 'package:team_app/core/utils/cache_helper.dart';
 import 'package:team_app/core/utils/dio_helper.dart';
+import 'package:team_app/features/appointemtsPage/data/models/allProductResponse.dart';
 import 'package:team_app/features/appointemtsPage/data/models/apointement_model.dart';
+import 'package:team_app/features/homepage/data/models/product_update_response.dart';
+import 'package:team_app/features/homepage/data/models/products_update_body.dart';
 
 import 'package:team_app/features/homepage/data/models/record_model.dart';
 import 'package:team_app/features/homepage/data/models/logout_message_model.dart';
-import 'package:team_app/features/homepage/data/models/product_model.dart';
-import 'package:team_app/features/homepage/data/models/record_model.dart';
+// import 'package:team_app/features/homepage/data/models/product_model.dart';
+// import 'package:team_app/features/homepage/data/models/record_model.dart';
 import 'package:team_app/features/homepage/data/models/user_model.dart';
 import 'package:team_app/features/homepage/data/repos/home_repo.dart';
 import 'package:dartz/dartz.dart';
@@ -175,7 +178,7 @@ class HomeRepoImpl extends homeRepo {
       Response data = await DioHelper.getData(
           url: AppConstants.fetchAllRecords,
           token: CacheHelper.getData(key: 'Token'));
-      log("records:  $data");
+      log("recor:  $data");
       List<Record> records = [];
       for (var item in data.data['records']) {
         records.add(Record.fromJson(item));
@@ -195,6 +198,33 @@ class HomeRepoImpl extends homeRepo {
     }
   }
 
+  @override
+  Future<Either<Failure, List<ProductForResponse>>> updateProducts(
+      ProductsResponsebody body) async {
+    try {
+      final data = await DioHelper.postData(
+        url: "${AppConstants.updateProduct}$id",
+        token: CacheHelper.getData(key: 'Token'),
+        body: body.toJson(),
+      );
+      List<ProductForResponse> list = [];
+      for (var item in data.data["Order updated successfully"]["products"]) {
+        list.add(ProductForResponse.fromJson(item));
+      }
+      return right(list);
+    } on Exception catch (e) {
+      if (e is DioException) {
+        return left(
+          ServerFailure.fromDioException(e),
+        );
+      }
+      return left(
+        ServerFailure(
+          e.toString(),
+        ),
+      );
+    }
+  }
   // @override
   // Future<Either<Failure, LogoutResponse>> Loguot(
   //     {required String token}) async {
