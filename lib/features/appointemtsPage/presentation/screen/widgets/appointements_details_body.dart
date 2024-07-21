@@ -37,7 +37,7 @@ class AppointementDetailsScreen extends StatelessWidget {
     return BlocProvider(
         create: (context) {
           return AppointementsCubit(getIt.get<AppointementsRepoImpl>())
-            ..fetchUser(appointement.user.uid)
+           // ..fetchUser(appointement.user.uid)
             ..fetchallproducts();
         },
         child: BlocConsumer<AppointementsCubit, AppointementsState>(
@@ -52,20 +52,20 @@ class AppointementDetailsScreen extends StatelessWidget {
             final cubit = BlocProvider.of<AppointementsCubit>(context);
 
             return Scaffold(
-              floatingActionButton: InkWell(
-                onTap: () {
-                  context.push(AppRouter.kChatUserView, extra: cubit.userByuid);
-                },
-                child: const CircleAvatar(
-                  radius: 30,
-                  backgroundColor: AppConstants.orangeColor,
-                  child: Icon(
-                    Icons.chat,
-                    color: Colors.white,
-                  ),
-                ),
-              ),
-              backgroundColor: Color.fromARGB(255, 232, 243, 248),
+              // floatingActionButton: InkWell(
+              //   onTap: () {
+              //     context.push(AppRouter.kChatUserView, extra: cubit.userByuid);
+              //   },
+              //   child: const CircleAvatar(
+              //     radius: 30,
+              //     backgroundColor: AppConstants.orangeColor,
+              //     child: Icon(
+              //       Icons.chat,
+              //       color: Colors.white,
+              //     ),
+              //   ),
+              // ),
+              // backgroundColor: Color.fromARGB(255, 232, 243, 248),
               appBar: AppBar(
                 centerTitle: true,
                 title: const Text(
@@ -203,27 +203,28 @@ class AppointementDetailsScreen extends StatelessWidget {
                         ),
                       ),
                       IconButton(
-                          onPressed: () {
+                             onPressed: () {
                             showDialog(
                               context: context,
                               builder: (context) {
                                 return AlertDialog(
                                   title: Text('اختر المنتجات المناسبة '),
-                                  content: productGridViewforshow(
+                                  content: SingleChildScrollView(
+                                    child: productGridViewforshow(
                                       count: cubit.appointements.length,
-                                      product: cubit.productsshow),
+                                      product: cubit.productsshow,
+                                    ),
+                                  ),
                                   actions: [
                                     TextButton(
                                       onPressed: () {
-                                        Navigator.of(context)
-                                            .pop(); // إغلاق الحوار
+                                        Navigator.of(context).pop();
                                       },
                                       child: Text('إلغاء'),
                                     ),
                                     TextButton(
                                       onPressed: () {
-                                        Navigator.of(context)
-                                            .pop(); // إغلاق الحوار
+                                        Navigator.of(context).pop();
                                       },
                                       child: Text('موافق'),
                                     ),

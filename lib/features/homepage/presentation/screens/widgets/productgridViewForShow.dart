@@ -14,22 +14,19 @@ class productGridViewforshow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      flex: 2,
-      child: GridView.builder(
-        itemCount: count,
-        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2,
-          crossAxisSpacing: 8.0,
-          mainAxisSpacing: 8.0,
-          childAspectRatio: 0.6,
-        ),
-        itemBuilder: (context, index) {
-          return ProductItem(
-            product: product[index],
-          );
-        },
+    return GridView.builder(
+      itemCount: count,
+      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 2,
+        crossAxisSpacing: 8.0,
+        mainAxisSpacing: 8.0,
+        childAspectRatio: 0.6,
       ),
+      itemBuilder: (context, index) {
+        return ProductItem(
+          product: product[index],
+        );
+      },
     );
   }
 }
