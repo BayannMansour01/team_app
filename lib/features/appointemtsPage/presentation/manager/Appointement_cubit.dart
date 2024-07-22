@@ -54,9 +54,10 @@ class AppointementsCubit extends Cubit<AppointementsState> {
   }
 
   String desc = " ";
+  String otherPrice = " ";
   void makeDone(int id) async {
     log('AAAAAAAAAAAAa$id');
-    var result = await Repo.makeDone(id, desc);
+    var result = await Repo.makeDone(id, desc, otherPrice);
     setToCompleted();
     // emit(MakeDoneState());
   }

@@ -1,12 +1,13 @@
 import 'package:team_app/features/appointemtsPage/data/models/apointement_model.dart';
 import 'package:team_app/features/homepage/data/models/logout_message_model.dart';
 import 'package:team_app/features/homepage/data/models/product_model.dart';
+import 'package:team_app/features/homepage/data/models/products_update_body.dart';
 import 'package:team_app/features/homepage/data/models/record_model.dart';
 import 'package:team_app/features/homepage/data/models/user_model.dart';
 import 'package:equatable/equatable.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
-abstract class homepageState extends Equatable {
+abstract class homepageState {
   const homepageState();
 
   @override
@@ -99,3 +100,12 @@ class LogoutSuccess extends homepageState {
   final LogoutResponse message;
   LogoutSuccess(this.message);
 }
+
+class OrderAmountChanged extends homepageState {}
+
+class OrderUpdatedState extends homepageState {
+  final List<ProductForUpdate> l;
+  OrderUpdatedState(this.l);
+}
+
+class updateProduct extends homepageState {}
