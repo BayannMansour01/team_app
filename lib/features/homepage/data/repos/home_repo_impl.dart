@@ -38,7 +38,6 @@ class HomeRepoImpl extends homeRepo {
       );
     }
   }
-
   // @override
   // Future<Either<Failure, LogoutResponse>> Loguot(
   //     {required String token}) async {

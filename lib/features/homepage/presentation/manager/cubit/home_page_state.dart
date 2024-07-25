@@ -62,7 +62,6 @@ class GetProductsSuccess extends homepageState {
 }
 
 class GetInvertersLoading extends homepageState {}
-
 class GetUserInfoLoading extends homepageState {}
 
 class GetUserInfoFailure extends homepageState {
@@ -75,8 +74,6 @@ class GetUserInfoSuccess extends homepageState {
   final UserModel UserInfo;
   GetUserInfoSuccess(this.UserInfo);
 }
-
-class GetRecordsLoading extends homepageState {}
 
 class LogoutLoading extends homepageState {}
 
