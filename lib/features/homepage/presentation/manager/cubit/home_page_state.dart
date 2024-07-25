@@ -62,8 +62,6 @@ class GetProductsSuccess extends homepageState {
 }
 
 class GetInvertersLoading extends homepageState {}
-
-
 class GetUserInfoLoading extends homepageState {}
 
 class GetUserInfoFailure extends homepageState {
