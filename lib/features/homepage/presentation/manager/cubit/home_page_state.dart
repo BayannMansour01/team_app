@@ -63,17 +63,6 @@ class GetProductsSuccess extends homepageState {
 
 class GetInvertersLoading extends homepageState {}
 
-class GetRecordsFailure extends homepageState {
-  final String errMessage;
-
-  const GetRecordsFailure(this.errMessage);
-}
-
-class GetRecordsSuccess extends homepageState {
-  final List<Record> Records;
-  GetRecordsSuccess(this.Records);
-}
-
 class GetUserInfoLoading extends homepageState {}
 
 class GetUserInfoFailure extends homepageState {

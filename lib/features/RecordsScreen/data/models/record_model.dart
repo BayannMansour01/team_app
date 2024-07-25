@@ -1,33 +1,3 @@
-// class RecordsResponse {
-//   bool status;
-//   String msg;
-//   List<Record> records;
-
-//   RecordsResponse({
-//     required this.status,
-//     required this.msg,
-//     required this.records,
-//   });
-
-//   factory RecordsResponse.fromJson(Map<String, dynamic> json) {
-//     return RecordsResponse(
-//       status: json['status'],
-//       msg: json['msg'],
-//       records: List<Record>.from(
-//         json['records'].map((x) => Record.fromJson(x)),
-//       ),
-//     );
-//   }
-
-//   Map<String, dynamic> toJson() {
-//     return {
-//       'status': status,
-//       'msg': msg,
-//       'records': List<dynamic>.from(records.map((x) => x.toJson())),
-//     };
-//   }
-// }
-
 class Record {
   final int id;
   final int userId;
@@ -37,6 +7,7 @@ class Record {
   final User user;
   final Order order;
   final Appointment appointment;
+  final List<Diagnose> diagnose;
 
   Record({
     required this.id,
@@ -47,6 +18,7 @@ class Record {
     required this.user,
     required this.order,
     required this.appointment,
+    required this.diagnose,
   });
 
   factory Record.fromJson(Map<String, dynamic> json) {
@@ -59,6 +31,9 @@ class Record {
       user: User.fromJson(json['user']),
       order: Order.fromJson(json['order']),
       appointment: Appointment.fromJson(json['appointment']),
+      diagnose: (json['diagnose'] as List)
+          .map((diagnoseJson) => Diagnose.fromJson(diagnoseJson))
+          .toList(),
     );
   }
 }
@@ -141,6 +116,38 @@ class Appointment {
       userId: json['user_id'],
       typeId: json['type_id'],
       statusId: json['status_id'],
+      createdAt: DateTime.parse(json['created_at']),
+      updatedAt: DateTime.parse(json['updated_at']),
+    );
+  }
+}
+
+class Diagnose {
+  final int id;
+  final String desc;
+  final int typeId;
+  final DateTime date;
+  final int recordId;
+  final DateTime createdAt;
+  final DateTime updatedAt;
+
+  Diagnose({
+    required this.id,
+    required this.desc,
+    required this.typeId,
+    required this.date,
+    required this.recordId,
+    required this.createdAt,
+    required this.updatedAt,
+  });
+
+  factory Diagnose.fromJson(Map<String, dynamic> json) {
+    return Diagnose(
+      id: json['id'],
+      desc: json['desc'],
+      typeId: json['type_id'],
+      date: DateTime.parse(json['date']),
+      recordId: json['record_id'],
       createdAt: DateTime.parse(json['created_at']),
       updatedAt: DateTime.parse(json['updated_at']),
     );

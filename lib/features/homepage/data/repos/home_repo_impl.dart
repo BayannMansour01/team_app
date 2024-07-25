@@ -39,31 +39,6 @@ class HomeRepoImpl extends homeRepo {
     }
   }
 
-  @override
-  Future<Either<Failure, List<Record>>> fetchrecords() async {
-    try {
-      Response data = await DioHelper.getData(
-          url: AppConstants.fetchAllRecords,
-          token: CacheHelper.getData(key: 'Token'));
-      log("recor:  $data");
-      List<Record> records = [];
-      for (var item in data.data['records']) {
-        records.add(Record.fromJson(item));
-      }
-      return right(records);
-    } on Exception catch (e) {
-      if (e is DioException) {
-        return left(
-          ServerFailure.fromDioException(e),
-        );
-      }
-      return left(
-        ServerFailure(
-          e.toString(),
-        ),
-      );
-    }
-  }
   // @override
   // Future<Either<Failure, LogoutResponse>> Loguot(
   //     {required String token}) async {
