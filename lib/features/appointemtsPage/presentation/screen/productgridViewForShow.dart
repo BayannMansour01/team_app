@@ -24,6 +24,7 @@ class productGridViewforshow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
     return Container(
       height: 500,
       width: double.maxFinite,
@@ -44,7 +45,13 @@ class productGridViewforshow extends StatelessWidget {
             );
           },
         ),
+
       ),
+      itemBuilder: (context, index) {
+        return ProductItem(
+          product: product[index],
+        );
+      },
     );
   }
 }

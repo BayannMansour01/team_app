@@ -41,13 +41,13 @@ class AppointementsCubit extends Cubit<AppointementsState> {
     });
   }
 
-  ChatUser? userByuid;
-  Future<void> fetchUser(String uid) async {
-    emit(getuserbyUIDloadinge());
-    userByuid = await APIs.getUserByUid(uid);
-    log('userByuid ${userByuid?.email}');
-    emit(getuserbyUIDsucc(userByuid!));
-  }
+  // ChatUser? userByuid;
+  // Future<void> fetchUser(String uid) async {
+  //   emit(getuserbyUIDloadinge());
+  //   userByuid = await APIs.getUserByUid(uid);
+  //   log('userByuid ${userByuid?.email}');
+  //   emit(getuserbyUIDsucc(userByuid!));
+  // }
 
   DateTime date = DateTime.now();
   void setDate(DateTime time) {
