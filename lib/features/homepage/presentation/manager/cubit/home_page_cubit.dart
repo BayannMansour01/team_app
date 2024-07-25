@@ -58,17 +58,6 @@ class homepageCubit extends Cubit<homepageState> {
   // String groupname = '';
   // List<System> proposedSystem = [];
 
-  List<Record> records = [];
-  Future<void> fetchAllIRecords() async {
-    var result = await Repo.fetchrecords();
-    result.fold((failure) {
-      emit(GetRecordsFailure((((failure.errorMessege)))));
-    }, (data) {
-      records = data;
-      emit(GetRecordsSuccess(records));
-    });
-  }
-
   UserModel? userInfo;
   Future<void> fetchUserInfo() async {
     emit(GetUserInfoLoading());
