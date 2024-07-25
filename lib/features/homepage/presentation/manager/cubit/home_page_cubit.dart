@@ -4,7 +4,6 @@ import 'package:team_app/core/utils/cache_helper.dart';
 import 'package:team_app/features/chatScreen/presentation/Screens/chat_screen.dart';
 import 'package:team_app/features/chatScreen/presentation/Screens/conversations_screen.dart';
 import 'package:team_app/features/homepage/data/models/product_model.dart';
-import 'package:team_app/features/homepage/data/models/product_update_response.dart';
 import 'package:team_app/features/homepage/data/models/products_update_body.dart';
 import 'package:team_app/features/homepage/data/models/record_model.dart';
 import 'package:team_app/features/homepage/data/models/user_model.dart';
@@ -58,44 +57,6 @@ class homepageCubit extends Cubit<homepageState> {
   final homeRepo Repo;
   // String groupname = '';
   // List<System> proposedSystem = [];
-  Map<int, int> productQuantities = {};
-
-  void increaseQuantity(int productId) {
-    if (productQuantities.containsKey(productId)) {
-      productQuantities[productId] = productQuantities[productId]! + 1;
-    } else {
-      productQuantities[productId] = 1;
-    }
-    emit(OrderAmountChanged());
-  }
-
-  void decreaseQuantity(int productId) {
-    if (productQuantities.containsKey(productId) &&
-        productQuantities[productId]! > 1) {
-      productQuantities[productId] = productQuantities[productId]! - 1;
-    } else {
-      productQuantities[productId] = 1;
-    }
-    emit(OrderAmountChanged());
-  }
-
-  int getQuantity(int productId) {
-    return productQuantities[productId] ?? 1;
-  }
-
-  List<ProductForUpdate> productsUpdates = [];
-  void addToupdatedProduct(ProductForUpdate p) {
-    productsUpdates.add(p);
-    emit(OrderUpdatedState(productsUpdates));
-  }
-
-  // // ProductUpdateResponse res;
-  // void updateProducts(List<ProductForUpdate> l) {
-  //   final result = Repo.updateProducts(
-  //       ProductsResponsebody.fromJson(l as Map<String, dynamic>));
-  //   log("cubit update$result");
-  //   emit(updateProduct());
-  // }
 
   List<Record> records = [];
   Future<void> fetchAllIRecords() async {
@@ -121,7 +82,7 @@ class homepageCubit extends Cubit<homepageState> {
       emit(GetUserInfoSuccess(data));
     });
   }
-
+}
   // Future<void> logout() async {
   //   emit(LogoutLoading());
   //   var result = await Repo.Loguot(token: CacheHelper.getData(key: 'Token'));
@@ -131,4 +92,3 @@ class homepageCubit extends Cubit<homepageState> {
   //     emit(LogoutSuccess((data)));
   //   });
   // }
-}

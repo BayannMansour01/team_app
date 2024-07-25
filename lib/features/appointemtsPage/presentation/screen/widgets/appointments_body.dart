@@ -76,7 +76,7 @@ class AppointementItem extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    Appointement.typeId == '1'
+                    Appointement.typeId == 1
                         ? 'صيانة منظومة '
                         : "تركيب منظومة ",
                     style: TextStyle(

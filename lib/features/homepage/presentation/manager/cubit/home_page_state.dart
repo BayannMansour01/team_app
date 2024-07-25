@@ -1,4 +1,5 @@
 import 'package:team_app/features/appointemtsPage/data/models/apointement_model.dart';
+import 'package:team_app/features/appointemtsPage/data/models/response_done.dart';
 import 'package:team_app/features/homepage/data/models/logout_message_model.dart';
 import 'package:team_app/features/homepage/data/models/product_model.dart';
 import 'package:team_app/features/homepage/data/models/products_update_body.dart';
@@ -67,9 +68,7 @@ class GetRecordsFailure extends homepageState {
 
   const GetRecordsFailure(this.errMessage);
 }
-class GetRecordsLoading extends homepageState {
- 
-}
+
 class GetRecordsSuccess extends homepageState {
   final List<Record> Records;
   GetRecordsSuccess(this.Records);
@@ -88,6 +87,8 @@ class GetUserInfoSuccess extends homepageState {
   GetUserInfoSuccess(this.UserInfo);
 }
 
+class GetRecordsLoading extends homepageState {}
+
 class LogoutLoading extends homepageState {}
 
 class LogoutFailure extends homepageState {
@@ -100,12 +101,3 @@ class LogoutSuccess extends homepageState {
   final LogoutResponse message;
   LogoutSuccess(this.message);
 }
-
-class OrderAmountChanged extends homepageState {}
-
-class OrderUpdatedState extends homepageState {
-  final List<ProductForUpdate> l;
-  OrderUpdatedState(this.l);
-}
-
-class updateProduct extends homepageState {}

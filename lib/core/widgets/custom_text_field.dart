@@ -77,13 +77,13 @@ class CustomTextField extends StatelessWidget {
         decoration: InputDecoration(
           hintText: hintText,
           hintStyle: TextStyle(
-            fontSize: 15,
-            color: Color.fromARGB(255, 5, 74, 131),
+            fontSize: 14,
+            color: Colors.grey,
           ),
           labelText: labelText,
           labelStyle: const TextStyle(
             color: Color.fromARGB(255, 5, 74, 131),
-            fontSize: 22,
+            fontSize: 18,
           ),
 
           prefixIconColor: Color.fromARGB(255, 5, 74, 131),

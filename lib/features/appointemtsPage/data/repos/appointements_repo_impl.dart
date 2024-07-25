@@ -12,10 +12,39 @@ import 'package:team_app/features/appointemtsPage/data/models/allProductResponse
 import 'package:team_app/features/appointemtsPage/data/models/apointement_model.dart';
 import 'package:team_app/features/appointemtsPage/data/models/response_done.dart';
 import 'package:team_app/features/appointemtsPage/data/repos/appointements_repo.dart';
-import 'package:team_app/features/homepage/data/models/product_update_response.dart';
 import 'package:team_app/features/homepage/data/models/products_update_body.dart';
 
 class AppointementsRepoImpl extends AppointementRepo {
+  @override
+  Future<Either<Failure, BasicResponse>> updateProducts(
+    int appointmentId,
+    List<ProductUpdate> products,
+    String endTime,
+  ) async {
+    try {
+      List<Map<String, dynamic>> productsJson =
+          products.map((product) => product.toJson()).toList();
+      log("AAAAAAAAAAAAAAAAa");
+      final data = await DioHelper.postData(
+        url: "${AppConstants.updateProduct}/$appointmentId",
+        token: CacheHelper.getData(key: 'Token'),
+        body: {
+          "products": productsJson,
+          "end_time": endTime,
+        },
+      );
+      log("updateProducts:  $data");
+      return right(BasicResponse.fromJson(data.data));
+    } on Exception catch (e) {
+      if (e is DioException) {
+        log("Error : ${e.toString()}");
+        return left(ServerFailure.fromDioException(e));
+      }
+      log("Error : ${e.toString()}");
+      return left(ServerFailure(e.toString()));
+    }
+  }
+
   Future<Either<Failure, List<Appointment>>> fetchApointements(
       String id) async {
     try {
@@ -49,8 +78,8 @@ class AppointementsRepoImpl extends AppointementRepo {
     String otherPrice,
   ) async {
     try {
-      log("${desc} ");
-      log("qqqqqqqqq ${otherPrice}");
+      log("makeDone ${desc} ");
+      log("makeDone ${otherPrice}");
       final data = await DioHelper.postData(
         url: "${AppConstants.makeComplete}$id",
         token: CacheHelper.getData(key: 'Token'),
@@ -79,9 +108,9 @@ class AppointementsRepoImpl extends AppointementRepo {
   Future<Either<Failure, List<Productforshow>>> fetchAllproduct() async {
     try {
       Response data = await DioHelper.getData(
-          url: "${AppConstants.fetchAllProduct}",
+          url: AppConstants.fetchAllProduct,
           token: CacheHelper.getData(key: 'Token'));
-      log("data:  $data");
+      log("product:  $data");
       List<Productforshow> appointments = [];
       for (var item in data.data['products']) {
         appointments.add(Productforshow.fromJson(item));
