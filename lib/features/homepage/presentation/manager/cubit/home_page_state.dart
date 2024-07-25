@@ -68,9 +68,7 @@ class GetRecordsFailure extends homepageState {
 
   const GetRecordsFailure(this.errMessage);
 }
-class GetRecordsLoading extends homepageState {
- 
-}
+
 class GetRecordsSuccess extends homepageState {
   final List<Record> Records;
   GetRecordsSuccess(this.Records);
