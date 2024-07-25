@@ -7,10 +7,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:team_app/core/constants.dart';
 import 'package:team_app/core/utils/service_locator.dart';
 import 'package:team_app/features/appointemtsPage/data/models/allProductResponse.dart';
+import 'package:team_app/features/appointemtsPage/data/repos/appointements_repo_impl.dart';
+import 'package:team_app/features/appointemtsPage/presentation/manager/Appointement_cubit.dart';
+import 'package:team_app/features/appointemtsPage/presentation/manager/Appointements_state.dart';
 import 'package:team_app/features/homepage/data/models/products_update_body.dart';
-import 'package:team_app/features/homepage/data/repos/home_repo_impl.dart';
-import 'package:team_app/features/homepage/presentation/manager/cubit/home_page_cubit.dart';
-import 'package:team_app/features/homepage/presentation/manager/cubit/home_page_state.dart';
 
 class productGridViewforshow extends StatelessWidget {
   const productGridViewforshow({
@@ -60,15 +60,16 @@ class ProductItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => homepageCubit(getIt.get<HomeRepoImpl>()),
-      child: BlocConsumer<homepageCubit, homepageState>(
+      create: (context) =>
+          AppointementsCubit(getIt.get<AppointementsRepoImpl>()),
+      child: BlocConsumer<AppointementsCubit, AppointementsState>(
         listener: (context, state) {
           if (state is OrderAmountChanged) {
-            log("message");
+            log("OrderAmountChanged");
           }
         },
         builder: (context, state) {
-          final cubit = BlocProvider.of<homepageCubit>(context);
+          final cubit = BlocProvider.of<AppointementsCubit>(context);
           return InkWell(
             onTap: () {
               // Add your onTap functionality here if needed
@@ -87,9 +88,6 @@ class ProductItem extends StatelessWidget {
                   ),
                 ],
               ),
-              // width: 30,
-              // margin: EdgeInsets.all(7),
-
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
@@ -181,14 +179,19 @@ class ProductItem extends StatelessWidget {
                     flex: 2,
                     child: InkWell(
                       onTap: () {
-                        cubit.addToupdatedProduct(ProductForUpdate(
+                        cubit.addToupdatedProduct(
+                          ProductUpdate(
                             id: product.id,
-                            amount: cubit.getQuantity(product.id)));
+                            amount: cubit.getQuantity(product.id),
+                          ),
+                        );
                       },
                       child: Container(
                         width: double.infinity,
                         decoration: BoxDecoration(
-                          color: AppConstants.orangeColor,
+                          color: state is OrderUpdatedState
+                              ? AppConstants.blueColor
+                              : AppConstants.orangeColor,
                           borderRadius: BorderRadius.vertical(
                               bottom: Radius.circular(12)),
                         ),

@@ -71,16 +71,16 @@ class _MessageCardState extends State<MessageCard> {
                 //show image
                 ClipRRect(
                     borderRadius: BorderRadius.circular(15),
-                    // child: CachedNetworkImage(
-                    //   imageUrl: widget.message.msg,
-                    //   fit: BoxFit.cover,
-                    //   placeholder: (context, url) => const Padding(
-                    //     padding: EdgeInsets.all(8.0),
-                    //     child: CircularProgressIndicator(strokeWidth: 2),
-                    //   ),
-                    //   errorWidget: (context, url, error) =>
-                    //       const Icon(Icons.image, size: 70),
-                    // ),
+                    child: CachedNetworkImage(
+                      imageUrl: widget.message.msg,
+                      fit: BoxFit.cover,
+                      placeholder: (context, url) => const Padding(
+                        padding: EdgeInsets.all(8.0),
+                        child: CircularProgressIndicator(strokeWidth: 2),
+                      ),
+                      errorWidget: (context, url, error) =>
+                          const Icon(Icons.image, size: 70),
+                    ),
                   ),
           ),
         ),
@@ -153,15 +153,15 @@ class _MessageCardState extends State<MessageCard> {
                 //show image
                 ClipRRect(
                     borderRadius: BorderRadius.circular(15),
-                    // child: CachedNetworkImage(
-                    //   imageUrl: widget.message.msg,
-                    //   placeholder: (context, url) => const Padding(
-                    //     padding: EdgeInsets.all(8.0),
-                    //     child: CircularProgressIndicator(strokeWidth: 2),
-                    //   ),
-                    //   errorWidget: (context, url, error) =>
-                    //       const Icon(Icons.image, size: 70),
-                    // ),
+                    child: CachedNetworkImage(
+                      imageUrl: widget.message.msg,
+                      placeholder: (context, url) => const Padding(
+                        padding: EdgeInsets.all(8.0),
+                        child: CircularProgressIndicator(strokeWidth: 2),
+                      ),
+                      errorWidget: (context, url, error) =>
+                          const Icon(Icons.image, size: 70),
+                    ),
                   ),
           ),
         ),

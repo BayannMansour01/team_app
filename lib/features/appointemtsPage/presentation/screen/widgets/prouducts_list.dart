@@ -14,9 +14,9 @@ class productGridView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      flex: 2,
+    return SingleChildScrollView(
       child: GridView.builder(
+        shrinkWrap: true,
         itemCount: count,
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 2,

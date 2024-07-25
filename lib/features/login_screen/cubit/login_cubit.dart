@@ -16,15 +16,15 @@ class LoginCubit extends Cubit<LoginStates> {
   IconData passwordSuffixIcon = Icons.remove_red_eye;
   String? token;
   LoginCubit() : super(LoginInitial());
-  void changePasswordSuffixIcon() {
-    if (passwordSuffixIcon == Icons.remove_red_eye) {
-      passwordSuffixIcon = FontAwesomeIcons.solidEyeSlash;
-    } else {
-      passwordSuffixIcon = Icons.remove_red_eye;
-    }
-    obscureText = !obscureText;
-    emit(ChangePasswordState());
-  }
+  // void changePasswordSuffixIcon() {
+  //   if (passwordSuffixIcon == Icons.remove_red_eye) {
+  //     passwordSuffixIcon = FontAwesomeIcons.solidEyeSlash;
+  //   } else {
+  //     passwordSuffixIcon = Icons.remove_red_eye;
+  //   }
+  //   obscureText = !obscureText;
+  //   emit(ChangePasswordState());
+  // }
 
   Future<void> login() async {
     emit(LoginLoading());

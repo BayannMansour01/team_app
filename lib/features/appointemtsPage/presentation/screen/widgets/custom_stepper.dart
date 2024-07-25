@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:easy_stepper/easy_stepper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:team_app/core/constants.dart';
 import 'package:team_app/core/widgets/custom_text_field.dart';
 import 'package:team_app/features/appointemtsPage/data/models/apointement_model.dart';
 import 'package:team_app/features/appointemtsPage/presentation/manager/Appointement_cubit.dart';
@@ -38,7 +39,7 @@ class CustomStepper extends StatelessWidget {
       listener: (context, state) {},
       builder: (context, state) {
         return EasyStepper(
-          lineStyle: LineStyle(
+          lineStyle: const LineStyle(
             lineLength: 80,
             lineSpace: 0,
             lineType: LineType.normal,
@@ -100,23 +101,31 @@ class CustomStepper extends StatelessWidget {
                     context: context,
                     builder: (context) {
                       return AlertDialog(
-                        title: Text(' أضف تشخيص و سعر متوقع'),
+                        actionsOverflowDirection: VerticalDirection.up,
+                        actionsOverflowAlignment: OverflowBarAlignment.end,
+                        title: const Text(' أضف تشخيص و سعر متوقع'),
                         content: Column(
                           mainAxisSize: MainAxisSize.min,
                           children: [
                             CustomTextField(
+                              width: double.infinity,
+                              hintText: "أدخل ملاحظاتك ... ",
+                              labelText: "التشخيص ",
                               onChanged: (p0) {
                                 cubit.desc = p0;
                               },
                             ),
-                            SizedBox(
-                              height: 10,
+                            const SizedBox(
+                              height: 15,
                             ),
                             CustomTextField(
+                              width: double.infinity,
                               keyboardType: TextInputType.number,
                               onChanged: (p1) {
                                 cubit.otherPrice = p1;
                               },
+                              labelText: 'السعر ',
+                              hintText: ' السعر الإضافي .. ',
                             ),
                           ],
                         ),
@@ -125,15 +134,20 @@ class CustomStepper extends StatelessWidget {
                             onPressed: () {
                               Navigator.of(context).pop(); // إغلاق الحوار
                             },
-                            child: Text('إلغاء'),
+                            child: const Text(
+                              'إلغاء',
+                              style: TextStyle(color: AppConstants.blueColor),
+                            ),
                           ),
                           TextButton(
                             onPressed: () {
-                              log("item id ${item.id}");
                               cubit.makeDone(item.id);
                               Navigator.of(context).pop(); // إغلاق الحوار
                             },
-                            child: Text('موافق'),
+                            child: Text(
+                              'موافق',
+                              style: TextStyle(color: AppConstants.blueColor),
+                            ),
                           ),
                         ],
                       );

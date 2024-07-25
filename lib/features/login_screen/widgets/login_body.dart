@@ -100,7 +100,7 @@ class LoginViewBody extends StatelessWidget {
                             suffixIcon: InkWell(
                               borderRadius: BorderRadius.circular(25),
                               onTap: () {
-                                cubit.changePasswordSuffixIcon();
+                                cubit.changePasswordState();
                               },
                               child: Icon(
                                 cubit.passwordSuffixIcon,
@@ -136,102 +136,7 @@ class LoginViewBody extends StatelessWidget {
             ),
           ),
         );
-
-        // return _LoginBody(loginCubit: loginCubit);
       },
     );
   }
 }
-
-// class _LoginBody extends StatelessWidget {
-//   final LoginCubit loginCubit;
-//   const _LoginBody({required this.loginCubit});
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return SingleChildScrollView(
-//       physics: const BouncingScrollPhysics(),
-//       child: Padding(
-//         padding: const EdgeInsets.symmetric(horizontal: 10),
-//         child: Form(
-//           key: loginCubit.formKey,
-//           child: Column(
-//             crossAxisAlignment: CrossAxisAlignment.start,
-//             children: [
-//               SizedBox(height: 15),
-//               const LoginDesignSection(),
-//               SizedBox(height: 60),
-//               CustomTextField(
-//                 keyboardType: TextInputType.emailAddress,
-//                 suffixIcon: const Icon(
-//                   Icons.email,
-//                   color: AppConstants.gradient1,
-//                   size: 27,
-//                 ),
-//                 labelText: 'Email',
-//                 onChanged: (value) => loginCubit.email = value,
-//                 validator: (value) {
-//                   if (value?.isEmpty ?? true) {
-//                     return 'required';
-//                   } else {
-//                     if (!RegExp(r'\S+@\S+\.\S+').hasMatch(value.toString())) {
-//                       return "Please enter a valid email address";
-//                     }
-//                   }
-//                   return null;
-//                 },
-//               ),
-//               SizedBox(height: 20),
-//               CustomTextField(
-//                 prefixIcon: Icon(Icons.lock),
-//                 labelText: 'Password',
-//                 // obscureText: loginCubit.obscureText,
-//                 onChanged: (value) => loginCubit.password = value,
-//                 suffixIcon: const PasswordSuffixIcon(),
-//               ),
-//               SizedBox(height: 6),
-//               Center(
-//                 child: CustomButton(
-//                   text: 'Login',
-//                   onTap: () async {
-//                     if (loginCubit.formKey.currentState!.validate()) {
-//                       await loginCubit.login();
-//                     }
-//                     CacheHelper.deletData(key: 'Token');
-//                   },
-//                 ),
-//               ),
-//               SizedBox(height: 10),
-//               Row(
-//                 mainAxisAlignment: MainAxisAlignment.center,
-//                 children: [
-//                   const Text(
-//                     "Don't Hava an Account?",
-//                     style: TextStyle(
-//                       color: Colors.grey,
-//                       fontSize: 16,
-//                     ),
-//                   ),
-//                   SizedBox(width: 6),
-//                   TextButton(
-//                     onPressed: () {
-//                       context.pushNamed(AppRouter.kRegisterView);
-//                     },
-//                     child: const Text(
-//                       'Create Account',
-//                       style: TextStyle(
-//                         fontWeight: FontWeight.bold,
-//                         color: AppConstants.backgroundColor,
-//                         fontSize: 17,
-//                       ),
-//                     ),
-//                   ),
-//                 ],
-//               ),
-//             ],
-//           ),
-//         ),
-//       ),
-//     );
-//   }
-// }

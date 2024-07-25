@@ -176,8 +176,9 @@ class Order {
       desc: json['desc'],
       totalVoltage:
           json['totalVoltage'] != null ? json['totalVoltage'].toDouble() : null,
-      chargeHours: json['chargeHours'],
-      location: json['location'],
+      chargeHours:
+          json['chargeHours'] != null ? json['chargeHours'].toDouble() : null,
+      location: json['location'] ?? "",
       state: json['state'],
       typeId: json['type_id'],
       userId: json['user_id'],

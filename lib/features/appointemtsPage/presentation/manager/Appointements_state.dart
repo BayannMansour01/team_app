@@ -1,8 +1,10 @@
 import 'package:equatable/equatable.dart';
 import 'package:team_app/features/appointemtsPage/data/models/allProductResponse.dart';
 import 'package:team_app/features/appointemtsPage/data/models/apointement_model.dart';
+import 'package:team_app/features/appointemtsPage/data/models/response_done.dart';
 import 'package:team_app/features/chatScreen/presentation/Screens/widgets/chat_user.dart';
 import 'package:team_app/features/chatScreen/presentation/Screens/widgets/chat_user_card.dart';
+import 'package:team_app/features/homepage/data/models/products_update_body.dart';
 
 abstract class AppointementsState {
   const AppointementsState();
@@ -60,8 +62,27 @@ class AppointementsStateChangeTocomplete extends AppointementsState {
 }
 
 class setDateTimeState extends AppointementsState {}
-// class GetAppointementsSuccess extends AppointementsState {
-//   final GetAppointementsResponse GetAppointementsResponse;
 
-//   const GetAppointementsSuccess({required this.GetPreviousJobsResponse});
-// }
+class OrderAmountChanged extends AppointementsState {}
+
+class updateProduct extends AppointementsState {}
+
+class OrderUpdatedState extends AppointementsState {
+  final List<ProductUpdate> productsUpdates;
+
+  OrderUpdatedState(this.productsUpdates);
+}
+
+class OrderLoading extends AppointementsState {}
+
+class OrderUpdateSuccess extends AppointementsState {
+  final BasicResponse response;
+
+  OrderUpdateSuccess(this.response);
+}
+
+class OrderUpdateFailed extends AppointementsState {
+  final String errorMessage;
+
+  OrderUpdateFailed(this.errorMessage);
+}

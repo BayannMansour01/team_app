@@ -8,6 +8,8 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:googleapis_auth/auth.dart';
 import 'package:googleapis_auth/auth_io.dart';
 import 'package:http/http.dart' as http;
+import 'package:http/http.dart';
+import 'package:team_app/core/utils/api/notification_access_token.dart';
 import 'package:team_app/features/chatScreen/presentation/Screens/widgets/chat_user.dart';
 import 'package:team_app/features/chatScreen/presentation/Screens/widgets/message.dart';
 
@@ -36,7 +38,7 @@ class APIs {
     await fMessagin.getToken().then((token) {
       if (token != null) {
         me.pushToken = token;
-        log('PushToken: $token');
+        // log('PushToken: $token');
       }
     });
 
@@ -50,94 +52,34 @@ class APIs {
     });
   }
 
-  //for sending push notification
-  // static Future<void> sendPushNotification(
-  //     {required ChatUser chatUser, required String msg}) async {
-  //   try {
-  //     final body = {
-  //       "to": chatUser.pushToken,
-  //       "notification": {
-  //         "title": me.name,
-  //         "body": msg,
-  //         "android_channel_id": "chats",
-  //       },
-  //       "data": {
-  //         "some_data": "User ID: ${me.id}",
-  //       },
-  //     };
-  //     var res = await http.post(
-  //       Uri.parse(
-  //           'https://fcm.googleapis.com/v1/projects/graduation-project-a8c71/messages:send'),
-  //       headers: {
-  //         HttpHeaders.contentTypeHeader: 'application/json',
-  //         HttpHeaders.authorizationHeader:
-  //             'key=AAAAGV21seE:APA91bElkOxB9kiH3u1UtM73ADCDZcVWmVGBQc_FPHUP0gnL6ynTAGyuLY-kLH4AqdV8Ksn5vXD5Li2Hle2hCix5tAZKuOG6TAlKU2nV8TUiJghLJInDQ8PbGnsOoIUA0dacFluQnZ-d'
-  //       },
-  //       body: jsonEncode(body),
-  //     );
-  //     log('Response status: ${res.statusCode}');
-  //     log('Response body: ${res.body}');
-  //   } catch (ex) {
-  //     log('\n sendPushNotificationException: $ex');
-  //   }
-  // // }
-  static Future<String> getAccessToken() async {
-    String serviceAccountPath = "C:/Users/bayan/Downloads/key.json";
-    log('Absolute path: ${File(serviceAccountPath).absolute.path}');
-
-    final List<String> scopes = [
-      'https://www.googleapis.com/auth/cloud-platform',
-      'https://www.googleapis.com/auth/firebase.messaging',
-    ];
-
-    // Load the service account JSON file
-    final serviceAccountJson = File(serviceAccountPath).readAsStringSync();
-    final serviceAccount = json.decode(serviceAccountJson);
-
-    // Create a service account credentials object
-    final accountCredentials =
-        ServiceAccountCredentials.fromJson(serviceAccount);
-
-    // Obtain an authenticated HTTP client
-    final authClient =
-        await clientViaServiceAccount(accountCredentials, scopes);
-
-    // Return the access token
-    return (await authClient.credentials).accessToken.data;
-  }
-
-  static Future<void> sendPushNotification({
-    required ChatUser chatUser,
-    required String msg,
-  }) async {
+//for sending push notification
+  static Future<void> sendPushNotification(
+      {required ChatUser chatUser, required String msg}) async {
     try {
       final body = {
-        "message": {
-          "token": chatUser.pushToken,
-          "notification": {
-            "title": me.name,
-            "body": msg,
-            "android_channel_id": "chats",
-          },
-          "data": {
-            "some_data": "User ID: ${me.id}",
-          },
-        }
+        "to": chatUser.pushToken,
+        "notification": {
+          "title": me.name,
+          "body": msg,
+          "android_channel_id": "chats",
+        },
+        "data": {
+          "some_data": "User ID: ${me.id}",
+        },
       };
-      final accessToken = await getAccessToken();
       var res = await http.post(
-        Uri.parse(
-            'https://fcm.googleapis.com/v1/projects/graduation-project-a8c71/messages:send'),
+        Uri.parse('https://fcm.googleapis.com/fcm/send'),
         headers: {
           HttpHeaders.contentTypeHeader: 'application/json',
-          HttpHeaders.authorizationHeader: 'Bearer ${accessToken}'
+          HttpHeaders.authorizationHeader:
+              'key=AAAAWCy6bmA:APA91bHxodG-iTXZbG08B_UwW5XuRN_7IAfhwd3MrR279cMZ2naNmE2_qBgPtky0wh6K9iG7C4DbLvYXIM9kB6DnqLmaGUuRzOOJ6Y7tQ6q92V3kNyE3T8VW_Ed1g3_t60FMH6dRI1yV'
         },
         body: jsonEncode(body),
       );
       log('Response status: ${res.statusCode}');
       log('Response body: ${res.body}');
     } catch (ex) {
-      log('sendPushNotificationException: $ex');
+      log('\n sendPushNotificationException: $ex');
     }
   }
 
@@ -265,7 +207,7 @@ class APIs {
   static Stream<QuerySnapshot<Map<String, dynamic>>> getChatUsers(
       List<String> usersIDs) {
     try {
-      log(user.uid);
+      log("getChatUsers ${user.uid}");
       log("${firesotre.collection('users').doc(user.uid).collection('my_users').snapshots()}");
       return firesotre
           .collection('users')
@@ -282,12 +224,12 @@ class APIs {
   static Future<void> sendFirstMessage(
       ChatUser chatUser, String msg, Type type) async {
     try {
-      log("sendFirstMessage ${chatUser.id}  ${user.uid}");
+      log("sendFirstMessage ${chatUser.name}  ${me.name}");
       await FirebaseFirestore.instance
           .collection('users')
-          .doc(user.uid) //فريق
+          .doc(user.uid)
           .collection('my_users')
-          .doc(chatUser.id) //زبون
+          .doc(chatUser.id)
           .set({
         'image': chatUser.image,
         'about': chatUser.about,
@@ -307,15 +249,15 @@ class APIs {
           .doc(user.uid) //فرسق
           .set({
         'image': user.photoURL,
-        'about': " ",
-        'name': user.displayName,
-        'createdAt': " ",
+        'about': me.about,
+        'name': me.name,
+        'createdAt': me.createdAt,
         'id': user.uid,
-        'lastActive': " ",
-        'isOnline': " ",
-        'pushToken': " ",
+        'lastActive': me.lastActive,
+        'isOnline': me.isOnline,
+        'pushToken': me.pushToken,
         'email': user.email,
-        'localUserID': " "
+        'localUserID': me.localUserID
       });
 
       await sendMessage(chatUser, msg, type);
@@ -417,7 +359,9 @@ class APIs {
     await ref.doc(time).set(message.toJson()).then(
       (value) {
         sendPushNotification(
-            chatUser: chatUser, msg: type == Type.text ? msg : 'Sent an image');
+          chatUser: chatUser,
+          msg: type == Type.text ? msg : 'Sent an image',
+        );
       },
     );
   }
