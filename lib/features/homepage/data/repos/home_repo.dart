@@ -10,4 +10,5 @@ import 'package:team_app/features/RecordsScreen/data/models/record_model.dart';
 
 abstract class homeRepo {
   Future<Either<Failure, UserModel>> fetchuserinfo();
+
 }

@@ -5,6 +5,8 @@ import 'package:team_app/core/func/custom_snack_bar.dart';
 import 'package:team_app/core/utils/app_router.dart';
 import 'package:team_app/core/utils/size_config.dart';
 import 'package:team_app/core/widgets/custom_button.dart';
+import 'package:team_app/features/RecordsScreen/presentation/screens/records_page_body.dart';
+import 'package:team_app/features/RecordsScreen/presentation/screens/recordDetailsPage.dart';
 import 'package:team_app/features/appointemtsPage/data/models/apointement_model.dart';
 import 'package:team_app/features/appointemtsPage/presentation/screen/appointments_page.dart';
 import 'package:team_app/features/chatScreen/presentation/Screens/conversations_screen.dart';
@@ -63,7 +65,8 @@ class HomePageBody extends StatelessWidget {
                 ? ConversationsScreen()
                 : cubit.bottomNavigationBarIndex == 1
                     ? AppointmentsScreen()
-                    : RecordsPageBody());
+                    //: RecordsPageBody());
+                    :RecordsPageBody());
       },
     );
   }
