@@ -28,16 +28,23 @@ class ProductResponse {
 }
 
 class Productforshow {
-  int id;
-  String name;
-  String image;
-  int price;
-  int available;
-  String disc;
-  int quantity;
-  int categoryId;
-  DateTime createdAt;
-  DateTime updatedAt;
+  final int id;
+  final String name;
+  final String image;
+  final int price;
+  final int available;
+  final String disc;
+  final int quantity;
+  final int? inverterWatt;
+  final int? inverterStartWatt;
+  final int? inverterVolt;
+  final int? panelCapacity;
+  final String? batteryType;
+  final int? batteryVolt;
+  final int? batteryAmper;
+  final int categoryId;
+  final DateTime createdAt;
+  final DateTime updatedAt;
 
   Productforshow({
     required this.id,
@@ -47,6 +54,13 @@ class Productforshow {
     required this.available,
     required this.disc,
     required this.quantity,
+    this.inverterWatt,
+    this.inverterStartWatt,
+    this.inverterVolt,
+    this.panelCapacity,
+    this.batteryType,
+    this.batteryVolt,
+    this.batteryAmper,
     required this.categoryId,
     required this.createdAt,
     required this.updatedAt,
@@ -61,6 +75,13 @@ class Productforshow {
       available: json['available'],
       disc: json['disc'],
       quantity: json['quantity'],
+      inverterWatt: json['InverterWatt'],
+      inverterStartWatt: json['InverterStartWatt'],
+      inverterVolt: json['inverter_volt'],
+      panelCapacity: json['panel_capacity'],
+      batteryType: json['battery_type'],
+      batteryVolt: json['battery_volt'],
+      batteryAmper: json['battery_amper'],
       categoryId: json['category_id'],
       createdAt: DateTime.parse(json['created_at']),
       updatedAt: DateTime.parse(json['updated_at']),
@@ -76,6 +97,13 @@ class Productforshow {
       'available': available,
       'disc': disc,
       'quantity': quantity,
+      'InverterWatt': inverterWatt,
+      'InverterStartWatt': inverterStartWatt,
+      'inverter_volt': inverterVolt,
+      'panel_capacity': panelCapacity,
+      'battery_type': batteryType,
+      'battery_volt': batteryVolt,
+      'battery_amper': batteryAmper,
       'category_id': categoryId,
       'created_at': createdAt.toIso8601String(),
       'updated_at': updatedAt.toIso8601String(),

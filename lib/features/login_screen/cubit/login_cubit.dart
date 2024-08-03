@@ -1,6 +1,7 @@
 // ignore_for_file: argument_type_not_assignable_to_error_handler
 
 import 'package:awesome_icons/awesome_icons.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:team_app/core/utils/api/apis.dart';
@@ -28,35 +29,34 @@ class LoginCubit extends Cubit<LoginStates> {
 
   Future<void> login() async {
     emit(LoginLoading());
+    try {
+      final UserCredential? userCredential =
+          await APIs.signinWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
 
-    await APIs.signinWithEmailAndPassword(
-      email: email,
-      password: password,
-    ).then(
-      (value) async {
-        (await LoginService.login(
+      if (userCredential != null) {
+        final result = await LoginService.login(
           email: email,
           password: password,
-        ))
-            .fold(
+        );
+
+        result.fold(
           (failure) {
             emit(LoginFailure(failureMsg: failure.errorMessege));
           },
           (userModel) {
+            token = userModel.token;
             emit(LoginSuccess(messageModel: userModel));
-            (userModel) {
-              token = userModel.token;
-              emit(LoginSuccess(messageModel: userModel));
-            };
           },
         );
-      },
-    ).catchError(
-      () {
-        emit(
-            LoginFailure(failureMsg: 'Something Went Wrong, Please Try Again'));
-      },
-    );
+      } else {
+        emit(LoginFailure(failureMsg: 'الرجاء إنشاء حساب قبل تسجيل الدخول'));
+      }
+    } catch (error) {
+      emit(LoginFailure(failureMsg: 'حدث خطـأ,الرجاء المحاولة مجدداً'));
+    }
   }
 
   void changePasswordState() {

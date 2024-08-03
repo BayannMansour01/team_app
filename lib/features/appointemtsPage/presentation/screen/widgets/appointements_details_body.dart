@@ -30,7 +30,7 @@ class AppointementDetailsScreen extends StatelessWidget {
     return BlocProvider(
         create: (context) {
           return AppointementsCubit(getIt.get<AppointementsRepoImpl>())
-            ..fetchUser(appointement.user.uid)
+           // ..fetchUser(appointement.user.uid)
             ..fetchallproducts();
         },
         child: BlocConsumer<AppointementsCubit, AppointementsState>(
@@ -47,7 +47,6 @@ class AppointementDetailsScreen extends StatelessWidget {
             return Scaffold(
               floatingActionButton: InkWell(
                 onTap: () {
-                  log("${cubit.userByuid}");
                   context.push(AppRouter.kChatUserView, extra: cubit.userByuid);
                 },
                 child: const CircleAvatar(
@@ -69,250 +68,177 @@ class AppointementDetailsScreen extends StatelessWidget {
                   ),
                 ),
               ),
-              body: SingleChildScrollView(
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+              body: Column(
+                // mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      Column(
                         children: [
-                          Column(
-                            children: [
-                              Text(
-                                "اسم الزبون ",
-                                style: TextStyle(
-                                  fontSize: 24,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              SizedBox(
-                                height: 8.0,
-                              ),
-                              Text(
-                                '${appointement.user.name}',
-                                style: TextStyle(fontSize: 16),
-                              ),
-                            ],
+                          Text(
+                            "اسم الزبون ",
+                            style: TextStyle(
+                              fontSize: 24,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
-                          Column(
-                            children: [
-                              Text(
-                                "رقم الزبون ",
-                                style: TextStyle(
-                                  fontSize: 24,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              SizedBox(
-                                height: 8.0,
-                              ),
-                              Text(
-                                '${appointement.user.phone}',
-                                style: TextStyle(fontSize: 16),
-                              ),
-                            ],
-                          )
+                          SizedBox(
+                            height: 8.0,
+                          ),
+                          Text(
+                            '${appointement.user.name}',
+                            style: TextStyle(fontSize: 16),
+                          ),
                         ],
                       ),
-                      SizedBox(
-                        height: 10,
-                      ),
+                      Column(
+                        children: [
+                          Text(
+                            "رقم الزبون ",
+                            style: TextStyle(
+                              fontSize: 24,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          SizedBox(
+                            height: 8.0,
+                          ),
+                          Text(
+                            '${appointement.user.phone}',
+                            style: TextStyle(fontSize: 16),
+                          ),
+                        ],
+                      )
+                    ],
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Text(
+                    'تاريخ بداية الإنجاز ',
+                    style: TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  SizedBox(
+                    height: 8.0,
+                  ),
+                  Text(
+                    '${appointement.startTime}',
+                    style: TextStyle(fontSize: 16),
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
                       Text(
-                        'تاريخ بداية الإنجاز ',
+                        'تاريخ نهاية الإنجاز ',
                         style: TextStyle(
                           fontSize: 24,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      SizedBox(
-                        height: 8.0,
+                      IconButton(
+                        onPressed: () {
+                          // showDatePicker(
+                          //         //  barrierColor: AppConstants.orangeColor,
+                          //         context: context,
+                          //         // initialDate: DateTime.now(),
+                          //         firstDate: DateTime(2024),
+                          //         lastDate: DateTime(2025))
+                          //     .then((value) {
+                          //   value != null ? cubit.setDate(value) : null;
+                          // });
+                        },
+                        icon: Icon(Icons.calendar_month_outlined),
+                        iconSize: 35,
+                        color: AppConstants.backgroundColor,
                       ),
-                      Text(
-                        '${appointement.startTime}',
-                        style: TextStyle(fontSize: 16),
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            'تاريخ نهاية الإنجاز ',
-                            style: TextStyle(
-                              fontSize: 24,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          IconButton(
-                            onPressed: () {
-                              // showDatePicker(
-                              //         //  barrierColor: AppConstants.orangeColor,
-                              //         context: context,
-                              //         // initialDate: DateTime.now(),
-                              //         firstDate: DateTime(2024),
-                              //         lastDate: DateTime(2025))
-                              //     .then((value) {
-                              //   value != null ? cubit.setDate(value) : null;
-                              // });
-                            },
-                            icon: Icon(Icons.calendar_month_outlined),
-                            iconSize: 35,
-                            color: AppConstants.backgroundColor,
-                          ),
-                        ],
-                      ),
-                      SizedBox(
-                        height: 8.0,
-                      ),
-                      Text(
-                        cubit.date != null
-                            ? '${cubit.date.year}-${cubit.date.month}-${cubit.date.day}'
-                            : "لم يتم تحديد تاريخ انتهاء بعد ! ",
-                        style: TextStyle(fontSize: 16),
-                      ),
-                      const SizedBox(
-                        height: 18.0,
-                      ),
-                      const Row(
-                        children: [
-                          Text(
-                            'حالة الطلب ',
-                            style: TextStyle(
-                              fontSize: 24,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ],
-                      ),
-                      CustomStepper(appointement),
-                      Container(
-                        height: 100,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            const Text(
-                              ' المنتجات المطلوبة',
-                              style: TextStyle(
-                                fontSize: 24,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            IconButton(
-                                onPressed: () {
-                                  showDialog(
-                                    context: context,
-                                    builder: (context) {
-                                      return AlertDialog(
-                                        title: Text('اختر المنتجات المناسبة '),
-                                        content: SingleChildScrollView(
-                                          child: Column(children: [
-                                            productGridViewforshow(
-                                                count:
-                                                    cubit.productsshow.length,
-                                                product: cubit.productsshow),
-                                            const SizedBox(
-                                              height: 10,
-                                            ),
-                                            Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
-                                              children: [
-                                                const Text(
-                                                  'تاريخ نهاية الإنجاز ',
-                                                  style: TextStyle(
-                                                    fontSize: 18,
-                                                  ),
-                                                ),
-                                                IconButton(
-                                                  onPressed: () {
-                                                    showDatePicker(
-                                                            //  barrierColor: AppConstants.orangeColor,
-                                                            context: context,
-                                                            // initialDate: DateTime.now(),
-                                                            firstDate:
-                                                                DateTime(2024),
-                                                            lastDate:
-                                                                DateTime(2025))
-                                                        .then((value) {
-                                                      value != null
-                                                          ? cubit.setDate(value)
-                                                          : null;
-                                                    });
-                                                  },
-                                                  icon: const Icon(Icons
-                                                      .calendar_month_outlined),
-                                                  iconSize: 35,
-                                                  color: AppConstants
-                                                      .backgroundColor,
-                                                ),
-                                              ],
-                                            ),
-                                            SizedBox(
-                                              height: 8.0,
-                                            ),
-                                            Text(
-                                              cubit.date != null
-                                                  ? '${cubit.date.year}-${cubit.date.month}-${cubit.date.day}'
-                                                  : "لم يتم تحديد تاريخ انتهاء بعد ! ",
-                                              style: TextStyle(fontSize: 16),
-                                            ),
-                                            const SizedBox(
-                                              height: 18.0,
-                                            ),
-                                          ]),
-                                        ),
-                                        actions: [
-                                          TextButton(
-                                            onPressed: () {
-                                              Navigator.of(context)
-                                                  .pop(); // إغلاق الحوار
-                                            },
-                                            child: const Text(
-                                              'إلغاء',
-                                              style: TextStyle(
-                                                color: AppConstants.blueColor,
-                                              ),
-                                            ),
-                                          ),
-                                          TextButton(
-                                            onPressed: () {
-                                              cubit.updateProducts(
-                                                appointement.id,
-                                                '${cubit.date.year}-${cubit.date.month}-${cubit.date.day}',
-                                              );
-                                              Navigator.of(context)
-                                                  .pop(); // إغلاق الحوار
-                                            },
-                                            child: const Text(
-                                              'موافق',
-                                              style: TextStyle(
-                                                color: AppConstants.blueColor,
-                                              ),
-                                            ),
-                                          ),
-                                        ],
-                                      );
-                                    },
-                                  );
-                                },
-                                icon: Icon(Icons.edit)),
-                          ],
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 3,
-                      ),
-                      productGridView(
-                        count: appointement.order.products.length,
-                        product: appointement.order.products,
-                      )
                     ],
                   ),
-                ),
+                  SizedBox(
+                    height: 8.0,
+                  ),
+                  Text(
+                    appointement.endTime != null
+                        ? '${appointement.endTime}'
+                        : "لم يتم تحديد تاريخ انتهاء بعد ! ",
+                    style: TextStyle(fontSize: 16),
+                  ),
+                  SizedBox(
+                    height: 18.0,
+                  ),
+                  Row(
+                    children: [
+                      Text(
+                        'حالة الطلب ',
+                        style: TextStyle(
+                          fontSize: 24,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
+                  ),
+                  CustomStepper(appointement),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        ' المنتجات المطلوبة',
+                        style: TextStyle(
+                          fontSize: 24,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      IconButton(
+                          onPressed: () {
+                            showDialog(
+                              context: context,
+                              builder: (context) {
+                                return AlertDialog(
+                                  title: Text('اختر المنتجات المناسبة '),
+                                  content: SingleChildScrollView(
+                                    child: productGridViewforshow(
+                                        count: cubit.productsshow.length,
+                                        product: cubit.productsshow),
+                                  ),
+                                  actions: [
+                                    TextButton(
+                                      onPressed: () {
+                                        Navigator.of(context)
+                                            .pop(); // إغلاق الحوار
+                                      },
+                                      child: Text('إلغاء'),
+                                    ),
+                                    TextButton(
+                                      onPressed: () {
+                                        // cubit.submitUpdate()
+                                        Navigator.of(context)
+                                            .pop(); // إغلاق الحوار
+                                      },
+                                      child: Text('موافق'),
+                                    ),
+                                  ],
+                                );
+                              },
+                            );
+                          },
+                          icon: Icon(Icons.edit)),
+                    ],
+                  ),
+                  SizedBox(
+                    height: 3,
+                  ),
+                  productGridView(
+                    count: appointement.order.products.length,
+                    product: appointement.order.products,
+                  )
+                ],
               ),
             );
           },

@@ -11,6 +11,7 @@ abstract class LoginService {
     required String password,
   }) async {
     try {
+      log("message");
       var response = await DioHelper.postData(
         url: 'auth/login',
         body: {
