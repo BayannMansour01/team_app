@@ -459,8 +459,10 @@ class APIs {
     required String password,
   }) async {
     try {
-      return await FirebaseAuth.instance
-          .signInWithEmailAndPassword(email: email, password: password);
+      return await FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
         log('No user found for that email.');

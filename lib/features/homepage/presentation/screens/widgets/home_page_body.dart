@@ -8,7 +8,7 @@ import 'package:team_app/core/widgets/custom_button.dart';
 import 'package:team_app/features/appointemtsPage/data/models/apointement_model.dart';
 import 'package:team_app/features/appointemtsPage/presentation/screen/appointments_page.dart';
 import 'package:team_app/features/chatScreen/presentation/Screens/conversations_screen.dart';
-import 'package:team_app/features/homepage/data/models/record_model.dart';
+import 'package:team_app/features/RecordsScreen/data/models/record_model.dart';
 import 'package:team_app/features/homepage/presentation/manager/cubit/home_page_cubit.dart';
 import 'package:team_app/features/homepage/presentation/manager/cubit/home_page_state.dart';
 import 'package:team_app/features/homepage/presentation/screens/widgets/custom_drawer.dart';
@@ -20,7 +20,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:scroll_snap_list/scroll_snap_list.dart';
-import 'package:team_app/features/homepage/presentation/screens/widgets/records_page_body.dart';
+import 'package:team_app/features/RecordsScreen/presentation/screens/records_page_body.dart';
 
 import 'product_item.dart';
 
