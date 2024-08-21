@@ -10,7 +10,7 @@ class CustomTextField extends StatelessWidget {
   final Widget? suffixIcon;
   final Widget? prefixIcon;
   final void Function()? suffixIconOnTap;
-  final void Function(String)? onChanged;
+  final void Function(dynamic)? onChanged;
   final void Function(String)? onFieldSubmitted;
   final String? Function(String?)? validator;
   final TextInputType? keyboardType;

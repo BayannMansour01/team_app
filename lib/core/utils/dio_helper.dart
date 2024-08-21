@@ -21,7 +21,6 @@ class DioHelper {
     String? token,
     ResponseType? responseType,
   }) async {
-    log("AAAAAAAAAAA");
     var response = await dio!.get(
       url,
       queryParameters: query,
@@ -33,7 +32,6 @@ class DioHelper {
     );
 
     if (response.statusCode == 200) {
-      log(response.data.toString());
       return response;
     } else {
       throw Exception(

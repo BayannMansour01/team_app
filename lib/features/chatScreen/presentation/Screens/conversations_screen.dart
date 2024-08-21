@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:team_app/core/constants.dart';
 import 'package:team_app/core/utils/size_config.dart';
 import 'package:team_app/features/chatScreen/presentation/Screens/widgets/chat_user.dart';
 import 'package:team_app/features/chatScreen/presentation/Screens/widgets/chat_user_card.dart';
@@ -152,7 +153,10 @@ class _ConversationsScreenState extends State<ConversationsScreen> {
                 //if data is loading
                 case ConnectionState.waiting:
                 case ConnectionState.none:
-                  return const Center(child: CircularProgressIndicator());
+                  return const Center(
+                      child: CircularProgressIndicator(
+                    color: AppConstants.blueColor,
+                  ));
 
                 //if some or all data is loaded then show it
                 case ConnectionState.active:

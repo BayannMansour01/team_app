@@ -15,7 +15,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   setupServiceLocator();
   DioHelper.init();
-  await Firebase.initializeApp(  
+  await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
   CacheHelper.init();
@@ -31,7 +31,10 @@ class TeamApp extends StatelessWidget {
     return MaterialApp.router(
       debugShowCheckedModeBanner: false,
       theme: ThemeData.light().copyWith(
+        primaryColorLight: AppConstants.blueColor,
         primaryColor: AppConstants.blueColor,
+        colorScheme: ColorScheme.fromSeed(seedColor: AppConstants.blueColor),
+        primaryColorDark: AppConstants.blueColor,
         bottomNavigationBarTheme: BottomNavigationBarThemeData(
             selectedItemColor: AppConstants.blueColor,
             selectedIconTheme: IconThemeData(size: 30)),

@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:team_app/core/constants.dart';
 // <<<<<<< Bayan
 import 'package:team_app/core/func/custom_progress_indicator.dart';
@@ -11,6 +13,7 @@ import 'package:team_app/features/appointemtsPage/data/models/apointement_model.
 import 'package:team_app/features/appointemtsPage/presentation/screen/appointments_page.dart';
 import 'package:team_app/features/chatScreen/presentation/Screens/conversations_screen.dart';
 import 'package:team_app/features/RecordsScreen/data/models/record_model.dart';
+import 'package:team_app/features/homepage/data/models/user_model.dart';
 import 'package:team_app/features/homepage/presentation/manager/cubit/home_page_cubit.dart';
 import 'package:team_app/features/homepage/presentation/manager/cubit/home_page_state.dart';
 import 'package:team_app/features/homepage/presentation/screens/widgets/custom_drawer.dart';
@@ -23,50 +26,142 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:scroll_snap_list/scroll_snap_list.dart';
 import 'package:team_app/features/RecordsScreen/presentation/screens/records_page_body.dart';
-
 import 'product_item.dart';
 
 class HomePageBody extends StatelessWidget {
-  final String token;
-  const HomePageBody({super.key, required this.token});
+  const HomePageBody({super.key});
+
   @override
   Widget build(BuildContext context) {
     final cubit = BlocProvider.of<homepageCubit>(context);
+
     return BlocConsumer<homepageCubit, homepageState>(
       listener: (context, state) {
         cubit.listining = true;
-        // if ((state is! GetProposedSystemLoading ||
-        //         state is GetProductsLoading ||
-        //         state is GetBatteriesLoading ||
-        //         state is GetInvertersLoading ||
-        //         state is GetPanalesLoading) &&
-        //     !CustomProgressIndicator.isOpen) {
-        //   CustomProgressIndicator.showProgressIndicator(context);
-        // } else {
-        //   if (CustomProgressIndicator.isOpen) {
-        //     context.pop();
-        //   }
-        //   if (state is GetProposedSystemFailure) {
-        //     CustomSnackBar.showErrorSnackBar(context,
-        //         message: state.errMessage);
-        //   }
-        // }
       },
       builder: (context, state) {
         return Scaffold(
-            bottomNavigationBar: BottomNavigationBar(
-              items: cubit.bottomNavigationBarItems,
-              onTap: (index) {
-                cubit.changeBottomNavigationBarIndex(index);
-              },
-              currentIndex: cubit.bottomNavigationBarIndex,
+            // bottomNavigationBar: BottomNavigationBar(
+            //   items: cubit.bottomNavigationBarItems,
+            //   onTap: (index) {
+            //     cubit.changeBottomNavigationBarIndex(index);
+            //   },
+            //   cubit.bottomNavigationBarIndex: cubit.bottomNavigationBarIndex,
+            // ),
+            bottomNavigationBar: Container(
+              margin: EdgeInsets.all(SizeConfig.screenWidth * .05),
+              height: SizeConfig.screenWidth * .155,
+              decoration: BoxDecoration(
+                color: Colors.white,
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(.1),
+                    blurRadius: 30,
+                    offset: Offset(0, 10),
+                  ),
+                ],
+                borderRadius: BorderRadius.circular(50),
+              ),
+              child: ListView.builder(
+                itemCount: 3,
+                scrollDirection: Axis.horizontal,
+                padding: EdgeInsets.symmetric(
+                    horizontal: SizeConfig.screenWidth * .02),
+                itemBuilder: (context, index) => InkWell(
+                  onTap: () {
+                    cubit.changeBottomNavigationBarIndex(index);
+                  },
+                  splashColor: Colors.transparent,
+                  highlightColor: Colors.transparent,
+                  child: Stack(
+                    children: [
+                      AnimatedContainer(
+                        duration: Duration(seconds: 1),
+                        curve: Curves.fastLinearToSlowEaseIn,
+                        width: index == cubit.bottomNavigationBarIndex
+                            ? SizeConfig.screenWidth * .50
+                            : SizeConfig.screenWidth * .18,
+                        alignment: Alignment.center,
+                        child: AnimatedContainer(
+                          duration: Duration(seconds: 1),
+                          curve: Curves.fastLinearToSlowEaseIn,
+                          height: index == cubit.bottomNavigationBarIndex
+                              ? SizeConfig.screenWidth * .12
+                              : 0,
+                          width: index == cubit.bottomNavigationBarIndex
+                              ? SizeConfig.screenWidth * .50
+                              : 0,
+                          decoration: BoxDecoration(
+                            color: index == cubit.bottomNavigationBarIndex
+                                ? Colors.blueAccent.withOpacity(.2)
+                                : Colors.transparent,
+                            borderRadius: BorderRadius.circular(50),
+                          ),
+                        ),
+                      ),
+                      AnimatedContainer(
+                        duration: Duration(seconds: 1),
+                        curve: Curves.fastLinearToSlowEaseIn,
+                        width: index == cubit.bottomNavigationBarIndex
+                            ? SizeConfig.screenWidth * .31
+                            : SizeConfig.screenWidth * .18,
+                        alignment: Alignment.center,
+                        child: Stack(
+                          children: [
+                            Row(
+                              children: [
+                                AnimatedContainer(
+                                  duration: Duration(seconds: 1),
+                                  curve: Curves.fastLinearToSlowEaseIn,
+                                  width: index == cubit.bottomNavigationBarIndex
+                                      ? SizeConfig.screenWidth * .13
+                                      : 0,
+                                ),
+                                AnimatedOpacity(
+                                  opacity:
+                                      index == cubit.bottomNavigationBarIndex
+                                          ? 1
+                                          : 0,
+                                  duration: Duration(seconds: 1),
+                                  curve: Curves.fastLinearToSlowEaseIn,
+                                  child: Text(
+                                    index == cubit.bottomNavigationBarIndex
+                                        ? '${cubit.listOfStrings[index]}'
+                                        : '',
+                                    style: TextStyle(
+                                      color: AppConstants.blueColor,
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 15,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            Row(
+                              children: [
+                                AnimatedContainer(
+                                  duration: Duration(seconds: 1),
+                                  curve: Curves.fastLinearToSlowEaseIn,
+                                  width: index == cubit.bottomNavigationBarIndex
+                                      ? SizeConfig.screenWidth * .03
+                                      : 20,
+                                ),
+                                cubit.listOfIcons[index],
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
             ),
             body: cubit.bottomNavigationBarIndex == 0
                 ? ConversationsScreen()
                 : cubit.bottomNavigationBarIndex == 1
                     ? AppointmentsScreen()
-                    //: RecordsPageBody());
-                    :RecordsPageBody());
+                    : RecordsPageBody());
       },
     );
   }

@@ -1,6 +1,9 @@
 import 'dart:developer';
 
+import 'package:flutter/services.dart';
+import 'package:team_app/core/constants.dart';
 import 'package:team_app/core/utils/cache_helper.dart';
+import 'package:team_app/core/utils/size_config.dart';
 import 'package:team_app/features/chatScreen/presentation/Screens/chat_screen.dart';
 import 'package:team_app/features/chatScreen/presentation/Screens/conversations_screen.dart';
 import 'package:team_app/features/homepage/data/models/product_model.dart';
@@ -34,50 +37,45 @@ class homepageCubit extends Cubit<homepageState> {
       label: 'السجلات ',
     ),
   ];
-  List<Widget> screens = [
-    // PreviousJobsBody(
-    //   token: CacheHelper.getData(key: 'Token'),
-    // ),
-    HomePage(
-      token: CacheHelper.getData(key: 'Token'),
-    ),
 
-    HomePage(
-      token: CacheHelper.getData(key: 'Token'),
-    ),
-    ConversationsScreen()
+  List<Widget> get listOfIcons {
+    return [
+      Icon(
+        Icons.message,
+        size: SizeConfig.screenWidth * .076, // تصغير حجم الأيقونات
+        color: bottomNavigationBarIndex == 0
+            ? AppConstants.blueColor
+            : Colors.black26,
+      ),
+      Icon(
+        FontAwesomeIcons.home,
+        size: SizeConfig.screenWidth * .076, // تصغير حجم الأيقونات
+        color: bottomNavigationBarIndex == 1
+            ? AppConstants.blueColor
+            : Colors.black26,
+      ),
+      Icon(
+        FontAwesomeIcons.archive,
+        size: SizeConfig.screenWidth * .076, // تصغير حجم الأيقونات
+        color: bottomNavigationBarIndex == 2
+            ? AppConstants.blueColor
+            : Colors.black26,
+      ),
+    ];
+  }
+
+  List<String> listOfStrings = [
+    'المحادثات',
+    'الرئيسية',
+    'السجلات',
   ];
 
   void changeBottomNavigationBarIndex(int index) {
     emit(homepageInitial());
     bottomNavigationBarIndex = index;
+    HapticFeedback.lightImpact();
     emit(ChangeBottomNavigationBarIndex());
   }
 
   final homeRepo Repo;
-  // String groupname = '';
-  // List<System> proposedSystem = [];
-
-  UserModel? userInfo;
-  Future<void> fetchUserInfo() async {
-    emit(GetUserInfoLoading());
-    var result = await Repo.fetchuserinfo();
-    result.fold((failure) {
-      emit(GetUserInfoFailure(((failure.errorMessege))));
-    }, (data) {
-      userInfo = data;
-      CacheHelper.saveData(key: 'UserID', value: userInfo?.id);
-      log("message${CacheHelper.saveData(key: 'UserID', value: userInfo?.id)}");
-      emit(GetUserInfoSuccess(data));
-    });
-  }
 }
-  // Future<void> logout() async {
-  //   emit(LogoutLoading());
-  //   var result = await Repo.Loguot(token: CacheHelper.getData(key: 'Token'));
-  //   result.fold((failure) {
-  //     emit(LogoutFailure(((failure.errorMessege))));
-  //   }, (data) {
-  //     emit(LogoutSuccess((data)));
-  //   });
-  // }

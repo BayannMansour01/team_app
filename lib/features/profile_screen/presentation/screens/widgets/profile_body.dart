@@ -1,7 +1,8 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:team_app/core/constants.dart';
+import 'package:team_app/features/appointemtsPage/presentation/manager/Appointement_cubit.dart';
+import 'package:team_app/features/appointemtsPage/presentation/manager/Appointements_state.dart';
 import 'package:team_app/features/chatScreen/presentation/Screens/widgets/chat_user.dart';
-import 'package:team_app/features/homepage/presentation/manager/cubit/home_page_cubit.dart';
-import 'package:team_app/features/homepage/presentation/manager/cubit/home_page_state.dart';
 import 'package:awesome_icons/awesome_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -16,8 +17,8 @@ class profileBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final cubit = BlocProvider.of<homepageCubit>(context);
-    return BlocConsumer<homepageCubit, homepageState>(
+    final cubit = BlocProvider.of<AppointementsCubit>(context);
+    return BlocConsumer<AppointementsCubit, AppointementsState>(
       listener: (context, state) {},
       builder: (context, state) {
         if (state is GetUserInfoSuccess) {

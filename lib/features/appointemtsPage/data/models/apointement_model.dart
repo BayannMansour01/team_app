@@ -1,46 +1,54 @@
-class AppointmentResponse {
-  bool status;
-  String msg;
-  List<Appointment> appointments;
+class AppointmentData {
+  final bool status;
+  final String msg;
+  final Data data;
 
-  AppointmentResponse({
+  AppointmentData({
     required this.status,
     required this.msg,
-    required this.appointments,
+    required this.data,
   });
 
-  factory AppointmentResponse.fromJson(Map<String, dynamic> json) {
-    return AppointmentResponse(
+  factory AppointmentData.fromJson(Map<String, dynamic> json) {
+    return AppointmentData(
       status: json['status'],
       msg: json['msg'],
-      appointments: List<Appointment>.from(
-        json['Appointments:'].map((x) => Appointment.fromJson(x)),
-      ),
+      data: Data.fromJson(json['data']),
     );
   }
+}
 
-  Map<String, dynamic> toJson() {
-    return {
-      'status': status,
-      'msg': msg,
-      'Appointments:': List<dynamic>.from(appointments.map((x) => x.toJson())),
-    };
+class Data {
+  final List<Appointment> appointments;
+  final List<Team> team;
+
+  Data({
+    required this.appointments,
+    required this.team,
+  });
+
+  factory Data.fromJson(Map<String, dynamic> json) {
+    return Data(
+      appointments: List<Appointment>.from(
+          json['appointments'].map((x) => Appointment.fromJson(x))),
+      team: List<Team>.from(json['team'].map((x) => Team.fromJson(x))),
+    );
   }
 }
 
 class Appointment {
-  int id;
-  String startTime;
-  String? endTime;
-  int teamId;
-  int orderId;
-  int userId;
-  int typeId;
+  final int id;
+  final String startTime;
+  final String? endTime;
+  final int teamId;
+  final int orderId;
+  final int userId;
+  final int typeId;
   int statusId;
-  DateTime createdAt;
-  DateTime updatedAt;
-  User user;
-  Order order;
+  final String createdAt;
+  final String updatedAt;
+  final User user;
+  final Order order;
 
   Appointment({
     required this.id,
@@ -61,56 +69,33 @@ class Appointment {
     return Appointment(
       id: json['id'],
       startTime: json['start_time'],
-      endTime: json['end_time'],
+      endTime: json['end_time'] ?? null,
       teamId: json['team_id'],
       orderId: json['order_id'],
       userId: json['user_id'],
       typeId: json['type_id'],
       statusId: json['status_id'],
-      createdAt: DateTime.parse(json['created_at']),
-      updatedAt: DateTime.parse(json['updated_at']),
+      createdAt: json['created_at'],
+      updatedAt: json['updated_at'],
       user: User.fromJson(json['user']),
       order: Order.fromJson(json['order']),
     );
   }
-
-  Map<String, dynamic> toJson() {
-    return {
-      'id': id,
-      'start_time': startTime,
-      'end_time': endTime,
-      'team_id': teamId,
-      'order_id': orderId,
-      'user_id': userId,
-      'type_id': typeId,
-      'status_id': statusId,
-      'created_at': createdAt.toIso8601String(),
-      'updated_at': updatedAt.toIso8601String(),
-      'user': user.toJson(),
-      'order': order.toJson(),
-    };
-  }
 }
 
 class User {
-  int id;
-  String name;
-  String email;
-  String? emailVerifiedAt;
-  String phone;
-  String uid;
-  DateTime createdAt;
-  DateTime updatedAt;
+  final int id;
+  final String name;
+  final String email;
+  final String phone;
+  final String uId;
 
   User({
     required this.id,
     required this.name,
     required this.email,
-    required this.emailVerifiedAt,
     required this.phone,
-    required this.uid,
-    required this.createdAt,
-    required this.updatedAt,
+    required this.uId,
   });
 
   factory User.fromJson(Map<String, dynamic> json) {
@@ -118,48 +103,28 @@ class User {
       id: json['id'],
       name: json['name'],
       email: json['email'],
-      emailVerifiedAt: json['email_verified_at'],
       phone: json['phone'],
-      uid: json['uId'],
-      createdAt: DateTime.parse(json['created_at']),
-      updatedAt: DateTime.parse(json['updated_at']),
+      uId: json['uId'],
     );
-  }
-
-  Map<String, dynamic> toJson() {
-    return {
-      'id': id,
-      'name': name,
-      'email': email,
-      'email_verified_at': emailVerifiedAt,
-      'phone': phone,
-      'uId': uid,
-      'created_at': createdAt.toIso8601String(),
-      'updated_at': updatedAt.toIso8601String(),
-    };
   }
 }
 
 class Order {
-  int id;
-  String? image;
-  String? desc;
-  double? totalVoltage;
-  int? chargeHours;
-  String location;
-  String state;
-  int typeId;
-  int userId;
-  DateTime createdAt;
-  DateTime updatedAt;
-  List<Product> products;
+  final int id;
+  final String? image;
+  final String? desc;
+  final String location;
+  final String state;
+  final int typeId;
+  final int userId;
+  final String createdAt;
+  final String updatedAt;
+  final List<Product> products;
 
   Order({
     required this.id,
-    required this.image,
-    required this.desc,
-    required this.totalVoltage,
-    required this.chargeHours,
+    this.image,
+    this.desc,
     required this.location,
     required this.state,
     required this.typeId,
@@ -174,51 +139,37 @@ class Order {
       id: json['id'],
       image: json['image'],
       desc: json['desc'],
-      totalVoltage:
-          json['totalVoltage'] != null ? json['totalVoltage'].toDouble() : null,
-      chargeHours:
-          json['chargeHours'] != null ? json['chargeHours'].toDouble() : null,
-      location: json['location'] ?? "",
+      location: json['location'],
       state: json['state'],
       typeId: json['type_id'],
       userId: json['user_id'],
-      createdAt: DateTime.parse(json['created_at']),
-      updatedAt: DateTime.parse(json['updated_at']),
+      createdAt: json['created_at'],
+      updatedAt: json['updated_at'],
       products:
           List<Product>.from(json['products'].map((x) => Product.fromJson(x))),
     );
   }
-
-  Map<String, dynamic> toJson() {
-    return {
-      'id': id,
-      'image': image,
-      'desc': desc,
-      'totalVoltage': totalVoltage,
-      'chargeHours': chargeHours,
-      'location': location,
-      'state': state,
-      'type_id': typeId,
-      'user_id': userId,
-      'created_at': createdAt.toIso8601String(),
-      'updated_at': updatedAt.toIso8601String(),
-      'products': List<dynamic>.from(products.map((x) => x.toJson())),
-    };
-  }
 }
 
 class Product {
-  int id;
-  String name;
-  String image;
-  double price;
-  bool available;
-  String disc;
-  int quantity;
-  int categoryId;
-  DateTime createdAt;
-  DateTime updatedAt;
-  Pivot pivot;
+  final int id;
+  final String name;
+  final String image;
+  final int price;
+  final int available;
+  final String disc;
+  final int quantity;
+  final int? inverterWatt;
+  final int? inverterStartWatt;
+  final int? inverterVolt;
+  final int? panelCapacity;
+  final int? batteryType;
+  final int? batteryVolt;
+  final int? batteryAmper;
+  final int categoryId;
+  final String createdAt;
+  final String updatedAt;
+  final Pivot pivot;
 
   Product({
     required this.id,
@@ -228,6 +179,13 @@ class Product {
     required this.available,
     required this.disc,
     required this.quantity,
+    this.inverterWatt,
+    this.inverterStartWatt,
+    this.inverterVolt,
+    this.panelCapacity,
+    this.batteryType,
+    this.batteryVolt,
+    this.batteryAmper,
     required this.categoryId,
     required this.createdAt,
     required this.updatedAt,
@@ -239,38 +197,29 @@ class Product {
       id: json['id'],
       name: json['name'],
       image: json['image'],
-      price: json['price'].toDouble(),
-      available: json['available'] == 1,
+      price: json['price'],
+      available: json['available'],
       disc: json['disc'],
       quantity: json['quantity'],
+      inverterWatt: json['InverterWatt'],
+      inverterStartWatt: json['InverterStartWatt'],
+      inverterVolt: json['inverter_volt'],
+      panelCapacity: json['panel_capacity'],
+      batteryType: json['battery_type'],
+      batteryVolt: json['battery_volt'],
+      batteryAmper: json['battery_amper'],
       categoryId: json['category_id'],
-      createdAt: DateTime.parse(json['created_at']),
-      updatedAt: DateTime.parse(json['updated_at']),
+      createdAt: json['created_at'],
+      updatedAt: json['updated_at'],
       pivot: Pivot.fromJson(json['pivot']),
     );
-  }
-
-  Map<String, dynamic> toJson() {
-    return {
-      'id': id,
-      'name': name,
-      'image': image,
-      'price': price,
-      'available': available ? 1 : 0,
-      'disc': disc,
-      'quantity': quantity,
-      'category_id': categoryId,
-      'created_at': createdAt.toIso8601String(),
-      'updated_at': updatedAt.toIso8601String(),
-      'pivot': pivot.toJson(),
-    };
   }
 }
 
 class Pivot {
-  int orderId;
-  int productId;
-  int amount;
+  final int orderId;
+  final int productId;
+  final int amount;
 
   Pivot({
     required this.orderId,
@@ -285,12 +234,30 @@ class Pivot {
       amount: json['amount'],
     );
   }
+}
 
-  Map<String, dynamic> toJson() {
-    return {
-      'order_id': orderId,
-      'product_id': productId,
-      'amount': amount,
-    };
+class Team {
+  final int id;
+  final String name;
+  final String email;
+  final String phone;
+  final String uId;
+
+  Team({
+    required this.id,
+    required this.name,
+    required this.email,
+    required this.phone,
+    required this.uId,
+  });
+
+  factory Team.fromJson(Map<String, dynamic> json) {
+    return Team(
+      id: json['id'],
+      name: json['name'],
+      email: json['email'],
+      phone: json['phone'],
+      uId: json['uId'],
+    );
   }
 }

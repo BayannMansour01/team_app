@@ -1,16 +1,16 @@
+import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
+import 'dart:developer';
 import 'package:team_app/features/appointemtsPage/data/models/allProductResponse.dart';
 import 'package:team_app/features/appointemtsPage/data/models/apointement_model.dart';
 import 'package:team_app/features/appointemtsPage/data/models/response_done.dart';
 import 'package:team_app/features/chatScreen/presentation/Screens/widgets/chat_user.dart';
 import 'package:team_app/features/chatScreen/presentation/Screens/widgets/chat_user_card.dart';
 import 'package:team_app/features/homepage/data/models/products_update_body.dart';
+import 'package:team_app/features/homepage/data/models/user_model.dart';
 
 abstract class AppointementsState {
   const AppointementsState();
-
-  @override
-  List<Object> get props => [];
 }
 
 class AppointementsInitial extends AppointementsState {}
@@ -48,22 +48,32 @@ class getuserbyUIDsucc extends AppointementsState {
   getuserbyUIDsucc(this.user);
 }
 
-class ChangeActiveStepSuccess extends AppointementsState {
-  // final List<GroupModel> groups;
-
-  // const AppointementsSuccess(this.groups);
-}
+class ChangeActiveStepSuccess extends AppointementsState {}
 
 class MakeDoneState extends AppointementsState {}
+
+class makedoneFail extends AppointementsState {
+  String err;
+  makedoneFail(this.err);
+}
 
 class AppointementsStateChangeTocomplete extends AppointementsState {
   int state;
   AppointementsStateChangeTocomplete(this.state);
 }
 
-class setDateTimeState extends AppointementsState {}
+class setDateTimeState extends AppointementsState {
+  DateTime date;
+  setDateTimeState(this.date);
+}
 
-class OrderAmountChanged extends AppointementsState {}
+class OrderAmountChanged extends AppointementsState {
+  int quantity;
+
+  OrderAmountChanged(this.quantity) {
+    log('${this.quantity}');
+  }
+}
 
 class updateProduct extends AppointementsState {}
 
@@ -85,4 +95,22 @@ class OrderUpdateFailed extends AppointementsState {
   final String errorMessage;
 
   OrderUpdateFailed(this.errorMessage);
+}
+
+class GetUserInfoLoading extends AppointementsState {}
+
+class GetUserInfoFailure extends AppointementsState {
+  final String errMessage;
+
+  const GetUserInfoFailure(this.errMessage);
+}
+
+class GetUserInfoSuccess extends AppointementsState {
+  final UserModel UserInfo;
+  GetUserInfoSuccess(this.UserInfo);
+}
+
+class Fetchprodupdated extends AppointementsState {
+  List<Product> products;
+  Fetchprodupdated(this.products);
 }

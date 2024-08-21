@@ -6,8 +6,8 @@ class Record {
   final DateTime updatedAt;
   final User user;
   final Order order;
-  final Appointment appointment;
-  final List<Diagnose> diagnose;
+  final Appointment? appointment;
+  final List<Diagnose>? diagnose;
 
   Record({
     required this.id,
@@ -17,8 +17,8 @@ class Record {
     required this.updatedAt,
     required this.user,
     required this.order,
-    required this.appointment,
-    required this.diagnose,
+    this.appointment,
+    this.diagnose,
   });
 
   factory Record.fromJson(Map<String, dynamic> json) {
@@ -30,11 +30,32 @@ class Record {
       updatedAt: DateTime.parse(json['updated_at']),
       user: User.fromJson(json['user']),
       order: Order.fromJson(json['order']),
-      appointment: Appointment.fromJson(json['appointment']),
-      diagnose: (json['diagnose'] as List)
-          .map((diagnoseJson) => Diagnose.fromJson(diagnoseJson))
-          .toList(),
+      appointment: json['appointment'] != null
+          ? Appointment.fromJson(json['appointment'])
+          : null,
+      diagnose: json['diagnose'] != null
+          ? List<Diagnose>.from(
+              json['diagnose']
+                  .map((diagnoseJson) => Diagnose.fromJson(diagnoseJson)),
+            )
+          : null,
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'user_id': userId,
+      'order_id': orderId,
+      'created_at': createdAt.toIso8601String(),
+      'updated_at': updatedAt.toIso8601String(),
+      'user': user.toJson(),
+      'order': order.toJson(),
+      'appointment': appointment?.toJson(),
+      'diagnose': diagnose != null
+          ? diagnose!.map((diagnose) => diagnose.toJson()).toList()
+          : null,
+    };
   }
 }
 
@@ -62,6 +83,16 @@ class User {
       uId: json['uId'],
     );
   }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'name': name,
+      'email': email,
+      'phone': phone,
+      'uId': uId,
+    };
+  }
 }
 
 class Order {
@@ -79,12 +110,19 @@ class Order {
       location: json['location'],
     );
   }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'location': location,
+    };
+  }
 }
 
 class Appointment {
   final int id;
   final DateTime startTime;
-  final DateTime endTime;
+  final DateTime? endTime;
   final int teamId;
   final int orderId;
   final int userId;
@@ -96,7 +134,7 @@ class Appointment {
   Appointment({
     required this.id,
     required this.startTime,
-    required this.endTime,
+    this.endTime,
     required this.teamId,
     required this.orderId,
     required this.userId,
@@ -110,7 +148,8 @@ class Appointment {
     return Appointment(
       id: json['id'],
       startTime: DateTime.parse(json['start_time']),
-      endTime: DateTime.parse(json['end_time']),
+      endTime:
+          json['end_time'] != null ? DateTime.parse(json['end_time']) : null,
       teamId: json['team_id'],
       orderId: json['order_id'],
       userId: json['user_id'],
@@ -119,6 +158,21 @@ class Appointment {
       createdAt: DateTime.parse(json['created_at']),
       updatedAt: DateTime.parse(json['updated_at']),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'start_time': startTime.toIso8601String(),
+      'end_time': endTime?.toIso8601String(),
+      'team_id': teamId,
+      'order_id': orderId,
+      'user_id': userId,
+      'type_id': typeId,
+      'status_id': statusId,
+      'created_at': createdAt.toIso8601String(),
+      'updated_at': updatedAt.toIso8601String(),
+    };
   }
 }
 
@@ -151,5 +205,17 @@ class Diagnose {
       createdAt: DateTime.parse(json['created_at']),
       updatedAt: DateTime.parse(json['updated_at']),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'desc': desc,
+      'type_id': typeId,
+      'date': date.toIso8601String(),
+      'record_id': recordId,
+      'created_at': createdAt.toIso8601String(),
+      'updated_at': updatedAt.toIso8601String(),
+    };
   }
 }
