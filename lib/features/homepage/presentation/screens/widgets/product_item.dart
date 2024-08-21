@@ -2,6 +2,8 @@ import 'package:team_app/core/constants.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter/material.dart';
+import 'package:team_app/core/utils/size_config.dart';
+import 'package:team_app/features/homepage/presentation/screens/widgets/deatiles_product.dart';
 
 import '../../../../appointemtsPage/data/models/apointement_model.dart';
 
@@ -17,7 +19,11 @@ class ProductItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        // Add your onTap functionality here if needed
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => ProductDetailsPage(product: product),
+            ));
       },
       child: Container(
         decoration: BoxDecoration(
@@ -41,9 +47,9 @@ class ProductItem extends StatelessWidget {
               borderRadius: BorderRadius.vertical(top: Radius.circular(12)),
               child: Image.network(
                 "http://${AppConstants.ip}:8000/${product.image}", // Ensure the image URL is accessible
-                height: 135,
+                height: SizeConfig.screenHeight * .2,
                 width: double.infinity,
-                fit: BoxFit.cover,
+                fit: BoxFit.contain,
               ),
             ),
             Padding(
@@ -54,7 +60,7 @@ class ProductItem extends StatelessWidget {
                     product.name,
                     style: TextStyle(
                       color: AppConstants.orangeColor,
-                      fontSize: 20,
+                      fontSize: 12,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
@@ -63,26 +69,32 @@ class ProductItem extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        '\$${product.price}',
+                        '${product.price} ل.س',
                         style: TextStyle(
                           color: Colors.grey[700],
-                          fontSize: 16,
+                          fontSize: 10,
                         ),
                       ),
                       Text(
-                        'الكمية ${product.quantity}',
+                        'الكمية  ${product.pivot.amount}',
                         style: TextStyle(
                           color: Colors.grey[700],
-                          fontSize: 16,
+                          fontSize: 10,
                         ),
                       ),
                     ],
                   ),
-                  SizedBox(height: 8),
+                  SizedBox(height: 5),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text("التصنيف"),
+                      Text(
+                        "التصنيف",
+                        style: TextStyle(
+                          color: Colors.grey[600],
+                          fontSize: 10,
+                        ),
+                      ),
                       Text(
                         product.categoryId == 1
                             ? "ألواح "
@@ -91,21 +103,18 @@ class ProductItem extends StatelessWidget {
                                 : "انفيرتر",
                         style: TextStyle(
                           color: Colors.grey[600],
-                          fontSize: 14,
+                          fontSize: 10,
                         ),
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
                       ),
                     ],
                   ),
-                  SizedBox(
-                    height: 4,
-                  ),
                   Text(
                     product.disc,
                     style: TextStyle(
                       color: Colors.grey[600],
-                      fontSize: 14,
+                      fontSize: 10,
                     ),
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,

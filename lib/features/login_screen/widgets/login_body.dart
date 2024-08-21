@@ -32,7 +32,13 @@ class LoginViewBody extends StatelessWidget {
               message: state.failureMsg,
             );
           } else if (state is LoginSuccess) {
-            CacheHelper.saveData(key: 'Token', value: state.messageModel.token);
+            CacheHelper.saveData(
+              key: 'Token',
+              value: state.messageModel.token,
+            );
+            CacheHelper.saveData(
+                key: 'token_expiry_team',
+                value: DateTime.now().millisecondsSinceEpoch + 3600 * 1000);
             context.pushReplacement(
               AppRouter.khomeView,
               extra: state.messageModel.token,

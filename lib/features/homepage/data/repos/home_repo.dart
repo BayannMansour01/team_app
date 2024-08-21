@@ -8,7 +8,4 @@ import 'package:team_app/features/homepage/data/models/products_update_body.dart
 import 'package:team_app/features/homepage/data/models/user_model.dart';
 import 'package:team_app/features/RecordsScreen/data/models/record_model.dart';
 
-abstract class homeRepo {
-  Future<Either<Failure, UserModel>> fetchuserinfo();
-
-}
+abstract class homeRepo {}

@@ -3,9 +3,7 @@ import 'package:hexcolor/hexcolor.dart';
 
 abstract class AppConstants {
   // static const String ip = "192.168.105.95";
-
-  static const String ip = "192.168.1.104";
-
+  static const String ip = "192.168.252.95";
   static const String baseUrl = 'http://${ip}:8000/api/';
   static const String register = 'auth/register';
   static const String login = 'auth/login';
@@ -20,13 +18,11 @@ abstract class AppConstants {
   static const String detailesProduct = 'Products/show';
   static const String fetchApointemnt = 'appointments/teamApp/';
   static const String updateProduct = "appointments/updateProducts/";
-
   static const String fetchAllProduct = 'Products/showAll';
   static const String fetchAllRecords = "records/showAll";
   static const String makeComplete = 'appointments/done/';
   static const Color backgroundColor = Color.fromRGBO(24, 24, 32, 1);
   static const Color whiteColor = Colors.white;
-
   // static Color blueColor = hexToColor('#044586');
   static const blueColor = Color(0xff044586); //rgba(4, 69, 134, 1)
   static const orangeColor = Color(0xfff39709);
@@ -37,7 +33,9 @@ abstract class AppConstants {
     if (hexColor.length == 6) {
       hexColor = 'FF' + hexColor;
     }
-    return Color(int.parse(hexColor, radix: 16));
+    return Color(
+      int.parse(hexColor, radix: 16),
+    );
   }
 
   static Color hexToColor(String hexColor) {

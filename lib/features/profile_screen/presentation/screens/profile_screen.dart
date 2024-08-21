@@ -9,6 +9,8 @@ import 'package:team_app/core/utils/app_router.dart';
 import 'package:team_app/core/utils/cache_helper.dart';
 import 'package:team_app/core/utils/service_locator.dart';
 import 'package:team_app/core/utils/size_config.dart';
+import 'package:team_app/features/appointemtsPage/data/repos/appointements_repo_impl.dart';
+import 'package:team_app/features/appointemtsPage/presentation/manager/Appointement_cubit.dart';
 import 'package:team_app/features/chatScreen/presentation/Screens/widgets/chat_user.dart';
 import 'package:team_app/core/utils/api/apis.dart';
 import 'package:team_app/features/homepage/data/repos/home_repo_impl.dart';
@@ -27,8 +29,8 @@ class ProfileView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => homepageCubit(
-        getIt.get<HomeRepoImpl>(),
+      create: (context) => AppointementsCubit(
+        getIt.get<AppointementsRepoImpl>(),
       )..fetchUserInfo(),
       child: Scaffold(
         appBar: AppBar(
@@ -42,7 +44,7 @@ class ProfileView extends StatelessWidget {
         floatingActionButton: FloatingActionButton.extended(
           onPressed: () async {
             // CustomDialog.showProgressBar(context);
-            await APIs.updateActiveStatus(false);
+            // await APIs.updateActiveStatus(false);
             await APIs.auth.signOut().then(
               (value) async {
                 (await LogOutService.logout(
@@ -56,6 +58,10 @@ class ProfileView extends StatelessWidget {
                     );
                   },
                   (success) async {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text('تم تسجيل الخروج بنجاح!')),
+                    );
+
                     await CacheHelper.deletData(key: 'Token');
                     context.pushReplacement(AppRouter.kLoginView);
                     //  Navigator.popAndPushNamed(context, LoginView.route);

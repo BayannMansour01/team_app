@@ -9,6 +9,7 @@ import 'package:team_app/features/chatScreen/presentation/Screens/conversations_
 import 'package:team_app/features/chatScreen/presentation/Screens/widgets/chat_user.dart';
 import 'package:team_app/features/homepage/presentation/screens/home_page.dart';
 import 'package:team_app/features/login_screen/login_screen.dart';
+import 'package:team_app/features/profile_screen/presentation/screens/profile_screen.dart';
 import 'package:team_app/features/splash/splash_view.dart';
 
 abstract class AppRouter {
@@ -33,15 +34,12 @@ abstract class AppRouter {
       ),
       GoRoute(
         path: khomeView,
-        builder: (context, state) => HomePage(
-          token: CacheHelper.getData(key: 'Token'),
-        ),
+        builder: (context, state) => HomePage(),
       ),
       GoRoute(
         path: kAppointemntsView,
         builder: (context, state) => AppointmentsScreen(),
       ),
-
       GoRoute(
         path: kAppointemntsDetailesView,
         builder: (context, state) => AppointementDetailsScreen(
@@ -50,12 +48,22 @@ abstract class AppRouter {
       ),
       GoRoute(
         path: kLoginView,
-        builder: (context, state) => LoginView(),
+        builder: (context, state) {
+          if (CacheHelper.getData(key: 'Token') != null &&
+              (DateTime.now().millisecondsSinceEpoch <
+                  CacheHelper.getData(key: 'token_expiry_team'))) {
+            return HomePage();
+          } else {
+            CacheHelper.deletData(key: 'Token');
+            CacheHelper.deletData(key: 'token_expiry_team');
+            return LoginView();
+          }
+        },
       ),
-      // GoRoute(
-      //   path: kProfileView,
-      //   builder: (context, state) => ProfileView(),
-      // ),
+      GoRoute(
+        path: kProfileView,
+        builder: (context, state) => ProfileView(),
+      ),
       GoRoute(
         path: kChatView,
         builder: (context, state) => ConversationsScreen(),

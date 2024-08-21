@@ -62,18 +62,8 @@ class GetProductsSuccess extends homepageState {
 }
 
 class GetInvertersLoading extends homepageState {}
+
 class GetUserInfoLoading extends homepageState {}
-
-class GetUserInfoFailure extends homepageState {
-  final String errMessage;
-
-  const GetUserInfoFailure(this.errMessage);
-}
-
-class GetUserInfoSuccess extends homepageState {
-  final UserModel UserInfo;
-  GetUserInfoSuccess(this.UserInfo);
-}
 
 class LogoutLoading extends homepageState {}
 

@@ -6,19 +6,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class HomePage extends StatelessWidget {
-  const HomePage({super.key, required this.token});
-  final String token;
+  const HomePage({super.key});
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => homepageCubit(getIt.get<HomeRepoImpl>())
-        // ..fetchAllProposedSystem()
-        // ..fetchAllProducts()
-        ..fetchUserInfo(),
-      child: HomePageBody(
-        token: token,
+      create: (context) => homepageCubit(
+        getIt.get<HomeRepoImpl>(),
       ),
+      child: HomePageBody(),
     );
   }
 }

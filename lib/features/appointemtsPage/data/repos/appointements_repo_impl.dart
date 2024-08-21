@@ -13,8 +13,33 @@ import 'package:team_app/features/appointemtsPage/data/models/apointement_model.
 import 'package:team_app/features/appointemtsPage/data/models/response_done.dart';
 import 'package:team_app/features/appointemtsPage/data/repos/appointements_repo.dart';
 import 'package:team_app/features/homepage/data/models/products_update_body.dart';
+import 'package:team_app/features/homepage/data/models/user_model.dart';
 
 class AppointementsRepoImpl extends AppointementRepo {
+  @override
+  Future<Either<Failure, UserModel>> fetchuserinfo() async {
+    try {
+      Response data = await DioHelper.getData(
+        url: AppConstants.me,
+        token: CacheHelper.getData(key: 'Token'),
+      );
+      UserModel user = UserModel.fromJson(data.data);
+
+      return right(user);
+    } on Exception catch (e) {
+      if (e is DioException) {
+        return left(
+          ServerFailure.fromDioException(e),
+        );
+      }
+      return left(
+        ServerFailure(
+          e.toString(),
+        ),
+      );
+    }
+  }
+
   @override
   Future<Either<Failure, BasicResponse>> updateProducts(
     int appointmentId,
@@ -46,7 +71,8 @@ class AppointementsRepoImpl extends AppointementRepo {
   }
 
   Future<Either<Failure, List<Appointment>>> fetchApointements(
-      String id) async {
+    String id,
+  ) async {
     try {
       Response data = await DioHelper.getData(
           url: "${AppConstants.fetchApointemnt}$id",
@@ -75,20 +101,19 @@ class AppointementsRepoImpl extends AppointementRepo {
   Future<Either<Failure, BasicResponse>> makeDone(
     int id,
     String desc,
-    String otherPrice,
+    int otherPrice,
   ) async {
     try {
-      log("makeDone ${desc} ");
-      log("makeDone ${otherPrice}");
+      log('${CacheHelper.getData(key: 'Token')}');
       final data = await DioHelper.postData(
         url: "${AppConstants.makeComplete}$id",
         token: CacheHelper.getData(key: 'Token'),
         body: {
-          "desc": "$desc",
-          "otherPrice": "${otherPrice}",
+          "desc": desc,
+          "otherPrice": otherPrice,
         },
       );
-      log("makedone:  $data");
+      log("makedonedata:  $data");
       return right(BasicResponse.fromJson(data.data));
     } on Exception catch (e) {
       if (e is DioException) {
