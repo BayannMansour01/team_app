@@ -13,7 +13,6 @@ import 'package:team_app/features/homepage/presentation/screens/widgets/custom_d
 import 'package:team_app/features/chatScreen/presentation/Screens/widgets/chat_user.dart';
 import 'package:team_app/features/homepage/data/logout_service.dart';
 import 'package:team_app/features/homepage/data/models/user_model.dart';
-import 'package:team_app/features/homepage/presentation/screens/widgets/custom_drawer_button.dart';
 
 abstract class CustomDrawer {
   static Drawer getCustomDrawer(
@@ -30,94 +29,86 @@ abstract class CustomDrawer {
       ),
       width: 250,
       child: SingleChildScrollView(
-        child: SizedBox(
-          height: SizeConfig.screenHeight,
-          child: Expanded(
-            child: Column(
-              children: [
-                Container(
-                  decoration: const BoxDecoration(
-                      borderRadius: BorderRadius.vertical(
-                        bottom: Radius.circular(25),
-                      ),
-                      color: AppConstants.blueColor),
-                  child: Column(
-                    children: [
-                      SizedBox(height: SizeConfig.defaultSize * 5),
-                      const Center(
-                        child: CircleAvatar(
-                          radius: 70,
-                          backgroundColor: Colors.white,
-                          child: CustomImage(
-                            fit: BoxFit.cover,
-                            height: 100,
-                            width: 100,
-                            image: 'assets/images/LOGO.png',
-                            // backgroundColor: Colors.transparent,
-                            // color: Colors.white,
-                          ),
-                        ),
-                      ),
-                      SizedBox(height: SizeConfig.defaultSize * 3),
-                      Center(
-                        child: Text(
-                          '${userModel!.name}',
-                          style: const TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white,
-                          ),
-                        ),
-                      ),
-                      SizedBox(height: SizeConfig.defaultSize * 3),
-                    ],
+        child: Column(
+          children: [
+            Container(
+              decoration: const BoxDecoration(
+                  borderRadius: BorderRadius.vertical(
+                    bottom: Radius.circular(25),
                   ),
-                ),
-                SizedBox(height: SizeConfig.defaultSize),
-                CustomDrawerButton(
-                  text: 'السجل الشخصي',
-                  icon: Icons.account_circle,
-                  onPressed: () {
-                    context.push(AppRouter.kProfileView);
-                  },
-                ),
-                SizedBox(height: SizeConfig.defaultSize),
-                CustomDrawerButton(
-                  text: 'Logout',
-                  icon: Icons.logout,
-                  iconColor: Colors.red,
-                  onPressed: () async {
-                    // await APIs.updateActiveStatus(false);
-                    await APIs.auth.signOut().then(
-                      (value) async {
-                        (await LogOutService.logout(
-                          token: await CacheHelper.getData(key: 'Token'),
-                        ))
-                            .fold(
-                          (failure) {
-                            CustomSnackBar.showErrorSnackBar(
-                              context,
-                              message: 'Something Went Wrong, Please Try Again',
-                            );
-                          },
-                          (success) async {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(content: Text('تم تسجيل الخروج بنجاح!')),
-                            );
-
-                            await CacheHelper.deletData(key: 'Token');
-                            context.pushReplacement(AppRouter.kLoginView);
-                            //  Navigator.popAndPushNamed(context, LoginView.route);
-                          },
+                  color: AppConstants.blueColor),
+              child: Column(
+                children: [
+                  SizedBox(height: SizeConfig.defaultSize * 5),
+                  const Center(
+                    child: CircleAvatar(
+                      radius: 70,
+                      backgroundColor: Colors.white,
+                      child: CustomImage(
+                        fit: BoxFit.cover,
+                        height: 100,
+                        width: 100,
+                        image: 'assets/images/LOGO.png',
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: SizeConfig.defaultSize * 3),
+                  if (userModel != null) // Added null check
+                    Center(
+                      child: Text(
+                        userModel.name,
+                        style: const TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                  SizedBox(height: SizeConfig.defaultSize * 3),
+                ],
+              ),
+            ),
+            SizedBox(height: SizeConfig.defaultSize),
+            CustomDrawerButton(
+              text: 'السجل الشخصي',
+              icon: Icons.account_circle,
+              onPressed: () {
+                context.push(AppRouter.kProfileView);
+              },
+            ),
+            SizedBox(height: SizeConfig.defaultSize),
+            CustomDrawerButton(
+              text: 'Logout',
+              icon: Icons.logout,
+              iconColor: Colors.red,
+              onPressed: () async {
+                await APIs.auth.signOut().then(
+                  (value) async {
+                    (await LogOutService.logout(
+                      token: await CacheHelper.getData(key: 'Token'),
+                    ))
+                        .fold(
+                      (failure) {
+                        CustomSnackBar.showErrorSnackBar(
+                          context,
+                          message: 'Something Went Wrong, Please Try Again',
                         );
+                      },
+                      (success) async {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(content: Text('تم تسجيل الخروج بنجاح!')),
+                        );
+
+                        await CacheHelper.deletData(key: 'Token');
+                        context.pushReplacement(AppRouter.kLoginView);
                       },
                     );
                   },
-                ),
-                SizedBox(height: SizeConfig.defaultSize),
-              ],
+                );
+              },
             ),
-          ),
+            SizedBox(height: SizeConfig.defaultSize),
+          ],
         ),
       ),
     );

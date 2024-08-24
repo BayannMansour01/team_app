@@ -5,7 +5,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:googleapis_auth/auth.dart';
 import 'package:googleapis_auth/auth_io.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/http.dart';
@@ -238,7 +237,7 @@ class APIs {
         'id': chatUser.id,
         'lastActive': chatUser.lastActive,
         'isOnline': chatUser.isOnline,
-        'pushToken': chatUser.pushToken,
+        'push_token': chatUser.pushToken,
         'email': chatUser.email,
         'localUserID': chatUser.localUserID
       });
@@ -255,7 +254,7 @@ class APIs {
         'id': user.uid,
         'lastActive': me.lastActive,
         'isOnline': me.isOnline,
-        'pushToken': me.pushToken,
+        'push_token': me.pushToken,
         'email': user.email,
         'localUserID': me.localUserID
       });
@@ -328,9 +327,30 @@ class APIs {
   // chats(collection) --> conversation_id(doc) --> messages(collection) --> message(doc)
 
   //useful for getting conversation_id
-  static String getConversationID(String id) => user.uid.hashCode <= id.hashCode
-      ? '${user.uid}_$id'
-      : '${id}_${user.uid}';
+  // static String getConversationID(String id) => user.uid.hashCode <= id.hashCode
+  //     ? '${user.uid}_$id'
+  //     : '${id}_${user.uid}';
+
+  static int getStringHashCode(String string) {
+    int hash = 0;
+    for (int i = 0; i < string.length; i++) {
+      hash = 0x1fffffff & (hash + string.codeUnitAt(i));
+      hash = 0x1fffffff & (hash + ((0x0007ffff & hash) << 10));
+      hash = hash ^ (hash >> 6);
+    }
+    hash = 0x1fffffff & (hash + ((0x03ffffff & hash) << 3));
+    hash = hash ^ (hash >> 11);
+    return 0x1fffffff & (hash + ((0x00003fff & hash) << 15));
+  }
+
+  static String getConversationID(String id) {
+    final myUserIDHashCode = getStringHashCode(user.uid);
+    final idHashCode = getStringHashCode(id);
+
+    return myUserIDHashCode <= idHashCode
+        ? '${user.uid}_$id'
+        : '${id}_${user.uid}';
+  }
 
   //for getting all messages of a specific conversation from firestore database
   static Stream<QuerySnapshot<Map<String, dynamic>>> getAllMessages(
